@@ -1,8 +1,8 @@
-const getEstabelecimento = (state) => {
-  return state.estabelecimento.id;
+const getUser = (state) => {
+  return state.user;
 }
 
 
 export {
-  getEstabelecimento
+  getUser
 }

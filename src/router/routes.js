@@ -2,7 +2,7 @@
 const routes = [
   {
     path: '/',
-    component: () => import(/* webpackChunkName: "2" */ '@/components/layouts/layoutPublic/LayoutPrivate.vue'),
+    component: () => import(/* webpackChunkName: "2" */ '@/components/layouts/layoutPublic/LayoutPublic.vue'),
     children: [
       {
         path: "",

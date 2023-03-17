@@ -37,11 +37,9 @@
                 :rules="rules.emailRules"
                 outlined
                 required
-                @input="$v.email.$touch()"
-                @blur="$v.email.$touch()"
               />
              <v-text-field
-                v-model="form.senha"
+                v-model="form.password"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min]"
                 :type="show ? 'text' : 'password'"
@@ -49,27 +47,53 @@
                 outlined
                 @click:append="show = !show"
               />
-              <v-row>
+              <div>
+                <span :to="{ name: 'esqueci-senha'}">Esqueceu sua senha?</span>
+                <router-link>Esqueceu sua senha?</router-link>
+              </div>
+              <v-row
+                class="px-2"
+                wrap
+              >
                 <v-flex
-                  :cols="$vuetify.breakpoint.smAndDown ? 6 : 12"
-                  class="ml-3 mt-5"
+                  xs12
+                  py-5
                 >
                   <v-btn 
-                    :disable="form.email === ''||form.senha ===''"
+                    :disabled="form.email === ''|| form.senha ===''"
                     type="submit"
+                    width="100%"
                     color="primary"
-                    large
-                    v-text="'Login'"
-                  />
-                  <v-spacer />
-                  <v-btn 
-                    :disable="form.email === ''||form.senha ===''"
-                    type="submit"
-                    color="primary"
-                    large
-                    v-text="'Login'"
-                  />
+                    x-large
+                    @click.prevent ="handleLogin"
+                  >
+                    <v-progress-circular
+                      v-if="loading"
+                      indeterminate
+                      color="white"
+                    />
 
+                    <span
+                      v-else
+                      class="white--text"
+                      v-text="'login'"
+                    />
+                
+                  </v-btn>
+                  
+                </v-flex>
+                <v-flex
+                  xs12
+                  mb-4
+                >
+                  <v-btn 
+                    :disable="form.email === ''||form.password ===''"
+                    type="submit"
+                    color="secondary"
+                    x-large
+                    v-text="'Cadastrar'"
+                    width="100%"
+                  />
                 </v-flex>
               </v-row>
             </v-form>
@@ -80,7 +104,10 @@
   </v-container>
 </template>
 
-<script>  
+<script>
+  import userAuthUser from "@/middlewares/UseAuthUser";
+
+  
   export default {
     name: "LoginView",
     data() {
@@ -101,18 +128,34 @@
         ],
         form: {
           email: '',
-          senha: ''
+          password: ''
         },
         show: false,
-          rules: {
-            emailRules: [
-              v => !!v || 'Obrigatório',
-              v => /.+@.+/.test(v) || 'Este email não é válido.'
-            ],
-            required: value => !!value || 'Obrigatório.',
-            min: v => v.length >= 8 || 'Minino 8 characters',
+        rules: {
+          emailRules: [
+            v => !!v || 'Obrigatório',
+            v => /.+@.+/.test(v) || 'Este email não é válido.'
+          ],
+          required: value => !!value || 'Obrigatório.',
+          min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
         },
+        loading: false,
       };
     },
+    methods: {
+      async handleLogin () {
+        this.loading = true
+        try {
+          const { login } = userAuthUser()
+          await login(this.form)
+          console.log("Login efetuado com sucesso!")
+          this.loading = false
+          this.$router.replace({ name: "me"})
+        } catch (error) {
+          this.loading = false
+          console.log(error)
+        }
+      }
+    }
   };
 </script>

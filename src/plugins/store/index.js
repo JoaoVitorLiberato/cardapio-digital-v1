@@ -1,17 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import estabelecimento from './estabelecimento'
+import user from './user'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+  namespaced: true,
   modules: {
+    estabelecimento,
+    user
   }
 })

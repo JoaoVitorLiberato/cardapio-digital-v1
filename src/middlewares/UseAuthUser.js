@@ -1,5 +1,5 @@
 import { ref } from "vue"
-import useSupabase from "src/boot/supabase";
+import useSupabase from "@/api/supabase";
 
 
 export default function userAuthUser() {

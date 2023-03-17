@@ -1,8 +1,8 @@
-const setEstabelecimento = ({ commit }, payload) => {
-  return commit('setdataEstabelecimento', payload)
+const setUser = ({ commit }, payload) => {
+  return commit('setdataUser', payload)
 }
 
 
 export {
-  setEstabelecimento
+  setUser
 }

@@ -1,8 +1,8 @@
-const setdataEstabelecimento = (state, payload) => {
+const setdataUser = (state, payload) => {
   return state.estabelcimento.push(payload)
 }
 
 
 export {
-  setdataEstabelecimento
+  setdataUser
 }
