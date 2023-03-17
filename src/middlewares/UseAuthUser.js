@@ -1,10 +1,10 @@
-import { ref } from "vue"
+// import { ref } from "vue"
 import useSupabase from "@/api/supabase";
+import store from "@/plugins/store";
 
 
 export default function userAuthUser() {
   const { supabase } = useSupabase();
-  const user = ref(null);
 
   const login = async ({ email, password }) => {
     const { user, error } = await supabase.auth.signInWithPassword({
@@ -31,7 +31,7 @@ export default function userAuthUser() {
   };
 
   const isLoggedIn = () => {
-    return !!user.value;
+    return !!store.state.user;
   };
 
   const register = async ({ email, password, ...meta }) => {
@@ -80,7 +80,6 @@ export default function userAuthUser() {
     register,
     sendPasswordRestEmail,
     update,
-    user,
     resetPassword,
   };
 }

@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import userAuthUser from "@/middlewares/UseAuthUser";
+import store from "@/plugins/store";
 
 const supabase = createClient(
   "https://vjdugaqbsraejmchhsig.supabase.co",
@@ -7,9 +7,8 @@ const supabase = createClient(
 );
 
 supabase.auth.onAuthStateChange((event, session) => {
-  const { user } = userAuthUser();
 
-  user.value = session?.user || null;
+  store.state.user = session?.user || null;
 });
 
 export default function useSupabase() {

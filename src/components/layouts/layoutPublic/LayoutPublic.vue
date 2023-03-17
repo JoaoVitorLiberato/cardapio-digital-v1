@@ -14,13 +14,16 @@
           v-for="({name, to}, index) in links"
           :key="`key-layout-public-${index}`"
         >
-          <router-link
+          <v-btn
             class="grey--text"
             style="text-decoration:none"
-            :to="{name: `${to}`}"
+            elevation
+            depressed
+            outlined
+            :to="to"
           >
-            {{ name }}
-          </router-link>
+            {{name}}
+          </v-btn>
         </v-tab>
       </v-tabs>
     </v-app-bar>
@@ -36,11 +39,11 @@
       links: [
         {
           name: 'Podutos',
-          to: 'products'
+          to: '/products'
         },
         {
           name: 'Login',
-          to: 'login'
+          to: '/login'
         },
       ],
     }),

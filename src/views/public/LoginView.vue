@@ -47,9 +47,14 @@
                 outlined
                 @click:append="show = !show"
               />
-              <div>
-                <span :to="{ name: 'esqueci-senha'}">Esqueceu sua senha?</span>
-                <router-link>Esqueceu sua senha?</router-link>
+              <div
+                class="container__esqueceu"
+              >
+                <router-link 
+                  to="/login"
+                >
+                  Esqueceu sua senha?
+                </router-link>
               </div>
               <v-row
                 class="px-2"
@@ -89,11 +94,15 @@
                   <v-btn 
                     :disable="form.email === ''||form.password ===''"
                     type="submit"
+                    width="100%"
                     color="secondary"
                     x-large
-                    v-text="'Cadastrar'"
-                    width="100%"
-                  />
+                  >
+                    <span
+                      class="white--text"
+                      v-text="'Cadastrar'"
+                    />
+                  </v-btn>
                 </v-flex>
               </v-row>
             </v-form>
@@ -106,7 +115,7 @@
 
 <script>
   import userAuthUser from "@/middlewares/UseAuthUser";
-
+  import "@/assets/styles/views/publicViews/login.styl"
   
   export default {
     name: "LoginView",
