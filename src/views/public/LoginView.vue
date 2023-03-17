@@ -27,14 +27,12 @@
           </v-col>
           <v-col :cols="$vuetify.breakpoint.xsOnly ? 12 : 5" fill-height>
             <h2 
-              v-font-size="$vuetify.breakpoint.xsOnly ? 12 : 30"
               class="text-uppercase font-weight-bold mb-5"
               v-text="'Login'"
             />
             <v-form>
               <v-text-field
                 v-model="form.email"
-                :error-messages="emailErrors"
                 label="Email"
                 :rules="rules.emailRules"
                 outlined
