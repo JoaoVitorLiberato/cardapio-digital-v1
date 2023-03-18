@@ -7,10 +7,8 @@ const supabase = createClient(
 );
 
 supabase.auth.onAuthStateChange((event, session) => {
-
-  store.state.user = session?.user || null;
+  store.state.user = session.user;
+  localStorage.setItem("user-token", session.access_token)
 });
 
-export default function useSupabase() {
-  return { supabase };
-}
+export default supabase

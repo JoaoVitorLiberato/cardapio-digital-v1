@@ -1,11 +1,8 @@
-// import { ref } from "vue"
-import useSupabase from "@/api/supabase";
+import supabase from "@/api/supabase";
 import store from "@/plugins/store";
 
 
 export default function userAuthUser() {
-  const { supabase } = useSupabase();
-
   const login = async ({ email, password }) => {
     const { user, error } = await supabase.auth.signInWithPassword({
       email,

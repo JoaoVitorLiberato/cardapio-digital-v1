@@ -1,5 +1,9 @@
+<!-- eslint-disable vue/no-parsing-error -->
 <template>
-  <v-container>
+  <v-container 
+    fluid
+    class="pt-0"
+  >
     <v-row no-gutters>
       <v-col cols="12">
         <v-row
@@ -10,9 +14,10 @@
           <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 7">
             <v-carousel
               cycle
-              height="400"
+              :height="$vuetify.breakpoint.mdAndUp? 600 : 300"
               hide-delimiter-background
               show-arrows-on-hover
+              interval="4000"
             >
               <a href="https://storyset.com/online" target="_blank">
               <v-carousel-item v-for="(slide, i) in slides" :key="i">
@@ -25,7 +30,10 @@
               </a>
             </v-carousel>
           </v-col>
-          <v-col :cols="$vuetify.breakpoint.xsOnly ? 12 : 5" fill-height>
+          <v-col 
+            :cols="$vuetify.breakpoint.smAndDown ? 12 : 5"
+            :class="$vuetify.breakpoint.smAndDown&&'mt-6'"
+          >
             <h2 
               class="text-uppercase font-weight-bold mb-5"
               v-text="'Login'"
@@ -34,7 +42,7 @@
               <v-text-field
                 v-model="form.email"
                 label="Email"
-                :rules="rules.emailRules"
+                :rules="[rules.required, rules.email]"
                 outlined
                 required
               />
@@ -92,11 +100,11 @@
                   mb-4
                 >
                   <v-btn 
-                    :disable="form.email === ''||form.password ===''"
-                    type="submit"
                     width="100%"
                     color="secondary"
                     x-large
+                    py-5
+                    @click="() => dialog = true"
                   >
                     <span
                       class="white--text"
@@ -104,6 +112,58 @@
                     />
                   </v-btn>
                 </v-flex>
+                <v-dialog
+                  v-model="dialog"
+                  max-width="500"
+                >
+                  <v-card
+                    width="100%"
+                    height="auto"
+                    class="px-5"
+                  >
+                    <v-card-title>
+                      Registrar
+                    </v-card-title>
+
+                    <v-btn 
+                      width="100%"
+                      color="primary"
+                      x-large
+                      :to="{name: 'register'}"
+                      class="my-4"
+                    >
+                      <span
+                        class="white--text"
+                        v-text="'Com Email e Senha'"
+                      />
+                    </v-btn>
+                    <v-btn 
+                      width="100%"
+                      color="primary"
+                      x-large
+                      class="my-5"
+                    >
+                      <span
+                        class="white--text"
+                        v-text="'Com conta Google'"
+                      />
+                    </v-btn>
+
+                    <v-spacer />
+                      <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="() => dialog = false"
+                      >
+                        Fechar
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+
+                </v-dialog>
               </v-row>
             </v-form>
           </v-col>
@@ -123,16 +183,19 @@
       return {
         slides: [
           {
-            src:"/img/carrocel-login/menu-1.svg"
+            src:"/img/carrocel-login/login-1.svg"
           },
           {
-            src:"/img/carrocel-login/menu-2.svg"
+            src:"/img/carrocel-login/login-2.svg"
           },
           {
-            src:"/img/carrocel-login/menu-3.svg"
+            src:"/img/carrocel-login/login-3.svg"
           },
           {
-            src:"/img/carrocel-login/menu-4.svg"
+            src:"/img/carrocel-login/login-4.svg"
+          },
+          {
+            src:"/img/carrocel-login/login-5.svg"
           },
         ],
         form: {
@@ -141,14 +204,12 @@
         },
         show: false,
         rules: {
-          emailRules: [
-            v => !!v || 'Obrigatório',
-            v => /.+@.+/.test(v) || 'Este email não é válido.'
-          ],
+          email: v => /.+@.+/.test(v) || 'Este email não é válido.',
           required: value => !!value || 'Obrigatório.',
           min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
         },
         loading: false,
+        dialog: false
       };
     },
     methods: {

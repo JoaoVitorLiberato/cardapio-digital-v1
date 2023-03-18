@@ -8,7 +8,7 @@
       <template v-slot:activator="{ on }">
         <v-btn
           v-on="on"
-          flat
+          text
           rounded
         >
           Menu
@@ -19,7 +19,16 @@
           v-for="(item, index) in items"
           :key="index"
         >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-btn
+            class="black--text"
+            style="text-decoration:none"
+            text
+            depressed
+            plain
+            :to="item.to"
+          >
+            {{item.title}}
+          </v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -37,19 +46,29 @@
 </template>
 
 <script>
-
+import userAuthUser from '@/middlewares/UseAuthUser'
   export default {
     components: {},
     data () { 
       return {
         drawer: null,
         items: [
-          { title: 'Click Me' },
-          { title: 'Click Me' },
-          { title: 'Click Me' },
-          { title: 'Click Me 2' },
+          { title: 'Sair', to: '/' },
         ],
       } 
     },
+    methods: {
+      async handleLogout () {
+        const { logout } = userAuthUser()
+
+        try {
+          await logout()
+          this.$router.replace('/')
+        } catch (error) {
+          console.log(error)
+        }
+
+      }
+    }
   }
 </script>

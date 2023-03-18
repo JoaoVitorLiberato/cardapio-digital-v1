@@ -9,6 +9,7 @@
         centered
         class="ml-n9"
         color="grey darken-1"
+        :style="$vuetify.breakpoint.xsOnly ? 'height: 45px;' : 'height: 42px;'"
       >
         <v-tab
           v-for="({name, to}, index) in links"
@@ -17,9 +18,9 @@
           <v-btn
             class="grey--text"
             style="text-decoration:none"
-            elevation
+            text
             depressed
-            outlined
+            plain
             :to="to"
           >
             {{name}}

@@ -6,5 +6,13 @@
 
   export default {
     name: 'HomeView',
+    mounted() {
+      this.getUser()
+    },
+    methods: {
+      getUser () {
+        console.log(this.$store.state.user)
+      }
+    }
   }
 </script>

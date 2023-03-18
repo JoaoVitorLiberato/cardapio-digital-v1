@@ -1,5 +1,5 @@
 const setdataUser = (state, payload) => {
-  return state.estabelcimento.push(payload)
+  return state.user.push(payload)
 }
 
 
