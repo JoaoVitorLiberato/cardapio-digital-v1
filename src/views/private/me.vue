@@ -1,18 +1,16 @@
 <template>
-  <h1>Home</h1>
+  <v-container>
+    <h1>Home</h1>
+  </v-container>
 </template>
 
 <script>
-
   export default {
     name: 'HomeView',
-    mounted() {
-      this.getUser()
+    data:() =>  {
+      return {}
     },
-    methods: {
-      getUser () {
-        console.log(this.$store.state.user)
-      }
-    }
+    mounted() {},
+    methods: {}
   }
 </script>

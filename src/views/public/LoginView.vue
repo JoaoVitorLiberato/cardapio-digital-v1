@@ -7,11 +7,10 @@
     <v-row no-gutters>
       <v-col cols="12">
         <v-row
-          :wrap="$vuetify.breakpoint.smAndDown"
           align="center"
           justify="center"
         >
-          <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 7">
+          <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 6">
             <v-carousel
               cycle
               :height="$vuetify.breakpoint.mdAndUp? 600 : 300"
@@ -31,14 +30,16 @@
             </v-carousel>
           </v-col>
           <v-col 
-            :cols="$vuetify.breakpoint.smAndDown ? 12 : 5"
-            :class="$vuetify.breakpoint.smAndDown&&'mt-6'"
+            :cols="$vuetify.breakpoint.smAndDown ? 12 : 4"
+            :class="$vuetify.breakpoint.smAndDown ? 'mt-6' : 'ml-4'"
           >
             <h2 
               class="text-uppercase font-weight-bold mb-5"
               v-text="'Login'"
             />
-            <v-form>
+            <v-form
+              @submit.prevent="handleLogin"
+            >
               <v-text-field
                 v-model="form.email"
                 label="Email"
@@ -59,7 +60,7 @@
                 class="container__esqueceu"
               >
                 <router-link 
-                  to="/login"
+                  to="/forgot-password"
                 >
                   Esqueceu sua senha?
                 </router-link>
@@ -78,7 +79,6 @@
                     width="100%"
                     color="primary"
                     x-large
-                    @click.prevent ="handleLogin"
                   >
                     <v-progress-circular
                       v-if="loading"

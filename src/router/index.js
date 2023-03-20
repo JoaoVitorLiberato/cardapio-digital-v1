@@ -1,4 +1,4 @@
-/* eslint-disable no-empty */
+import store from '@/plugins/store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
@@ -12,21 +12,24 @@ const router = new VueRouter({
   routes
 })
 
+
 router.beforeEach((to, from, next) => {
-  try {
-    const access_token = localStorage.getItem('access_token')
 
-    if([
-      access_token,
-      to.meta.requiresAuth
-    ].every(o => !!o)) {
-      console.log("Deu certo")
-      return router.replace({name: "me"})
-    }
-
-  } catch {} finally {
-    next()
+  if(to.hash.includes("type=recovery") && to.name !== "reset-password") {
+    const accessToken = to.hash.split("&")[0]
+    const token = accessToken.replace("#access_token=", "")
+    return router.push({ name: "reset-password", query: { token } })
   }
+
+  if([
+    null in store.state.user,
+    to.meta.requiresAuth,
+    !Object.keys(to.meta).includes("fromEmail")
+  ].every(o => !!o)) {
+    return router.replace({ name: "login"})
+  }
+    
+  next()
 })
 
 export default router

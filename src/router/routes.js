@@ -27,8 +27,18 @@ const routes = [
       {
         path: "email-confirmation",
         name: "email-confirmation",
-        component: () => import(/* webpackChunkName: "emailConfirmation-view-public" */ '@/views/public/EmailConfirmation.vue'),
+        component: () => import(/* webpackChunkName: "email-confirmation-view-public" */ '@/views/public/EmailConfirmation.vue'),
       },
+      {
+        path: "forgot-password",
+        name: "forgot-password",   
+        component: () => import(/* webpackChunkName: "forgot-password-view-public */ "@/views/public/ForgotPassword.vue")
+      },
+      {
+        path: "reset-password",
+        name: "reset-password",   
+        component: () => import(/* webpackChunkName: "reset-password-view-public */ "@/views/public/ResetPassword.vue")
+      }
     ]
   },
   {
@@ -38,12 +48,13 @@ const routes = [
       {
         path: "",
         name: "meDefault",
+        component: () => import(/* webpackChunkName: "default-me-view-private" */ '@/views/private/me.vue'),
         meta: {  requiresAuth: true }
       },
       {
         path: "me",
         name: "me",
-        component: () => import(/* webpackChunkName: "login-view-public" */ '@/views/private/me.vue'),
+        component: () => import(/* webpackChunkName: "me-view-private" */ '@/views/private/me.vue'),
         meta: {  requiresAuth: true }
       },
     ],
