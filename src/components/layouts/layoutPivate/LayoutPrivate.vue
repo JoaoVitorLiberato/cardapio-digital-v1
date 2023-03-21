@@ -15,19 +15,16 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
-        >
+        <v-list-item>
           <v-btn
             class="black--text"
             style="text-decoration:none"
             text
             depressed
             plain
-            :to="item.to"
+            @click="handleLogout"
           >
-            {{item.title}}
+            Sair
           </v-btn>
         </v-list-item>
       </v-list>
@@ -54,16 +51,13 @@ import { Component } from "vue-property-decorator"
 
   export default class LayoutPrivate extends mixins() {
     drawer = null
-    items = [
-      { title: 'Sair', to: '/' },
-    ]
 
     async handleLogout () {
       const { logout } = userAuthUser()
 
       try {
         await logout()
-        this.$router.replace('/')
+        this.$router.replace('/login')
       } catch (error) {
         console.log(error)
       }

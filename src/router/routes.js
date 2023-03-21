@@ -47,8 +47,6 @@ const routes = [
     children: [
       {
         path: "",
-        name: "meDefault",
-        component: () => import(/* webpackChunkName: "default-me-view-private" */ '@/views/private/me.vue'),
         meta: {  requiresAuth: true }
       },
       {

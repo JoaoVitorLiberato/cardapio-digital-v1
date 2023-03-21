@@ -1,8 +1,14 @@
 const setdataUser = (state, payload) => {
-  return state.user.push(payload)
+  state.isLogged = true
+  return state.user = payload
+}
+
+const setIsloggedin = (state, result) => {
+  return state.isLogged = result
 }
 
 
 export {
-  setdataUser
+  setdataUser,
+  setIsloggedin
 }
