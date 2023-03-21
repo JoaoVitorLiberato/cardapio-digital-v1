@@ -87,28 +87,26 @@
 
 <script>
   import userAuthUser from '@/middlewares/UseAuthUser'
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
 
-  export default {
-    name: 'ForgoutPassword',
-    data() {
-      return {
-        email: '',
-        rules: {
-          email: v => /.+@.+/.test(v) || 'Este email não é válido.',
-          required: value => !!value || 'Obrigatório.',
-        },
-      }
-    },
-    methods: {
-      async sendEmail () {
-        const { sendPasswordRestEmail } = userAuthUser()
+  @Component({})
 
-        try {
-          await sendPasswordRestEmail(this.email)
-          alert(`Email enviado para ${this.email} com sucesso.`)
-        } catch (error) {
-          console.log(error)
-        }
+  export default class ForgoutPasswordComponent extends mixins() {
+    email= ''
+    rules = {
+      email: v => /.+@.+/.test(v) || 'Este email não é válido.',
+      required: value => !!value || 'Obrigatório.',
+    }
+
+    async sendEmail() {
+      const { sendPasswordRestEmail } = userAuthUser()
+
+      try {
+        await sendPasswordRestEmail(this.email)
+        alert(`Email enviado para ${this.email} com sucesso.`)
+      } catch (error) {
+        console.log(error)
       }
     }
   }

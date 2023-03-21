@@ -159,19 +159,18 @@
 </template>
 
 <script>
-  export default {
-    name: "ProductsView",
-    data: () => ({
-      loading: false,
-      selection: 1,
-    }),
+ import { Component } from "vue-property-decorator"
+ import { mixins } from "vue-class-component"
 
-    methods: {
-      reserve () {
-        this.loading = true
+ @Component({})
 
-        setTimeout(() => (this.loading = false), 2000)
-      },
-    },
+  export default class ProductsView extends mixins() {
+    loading = false
+    selection = 1
+
+    reserve () {
+      this.loading = true
+      setTimeout(() => (this.loading = false), 2000)
+    }
   }
 </script>
