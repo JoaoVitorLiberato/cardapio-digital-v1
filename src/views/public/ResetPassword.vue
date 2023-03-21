@@ -72,29 +72,29 @@
 </template>
 <script>
   import userAuthUser from '@/middlewares/UseAuthUser'
-  export default {
-    name: 'ResetPassword',
-    data() {
-      return {
-        password: '',
-        rules: {
-          required: value => !!value || 'Obrigatório.',
-          min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
-        },
-      }
-    },
-    methods: {
-      async resetPassword() {
-        const { resetPassword } = userAuthUser()
+  import { mixins } from "vue-class-component"
+  import { Component } from "vue-property-decorator"
 
-        try {
-          await resetPassword(this.password)
-          alert("Senha alterada com sucesso!")
-          this.$router.push({ name: 'login'})
-        } catch (error) {
-          console.log(error)
-        }
+  @Component({})
+
+  export default class ResetPassword extends mixins() {
+    password = ''
+    rules = {
+      required: value => !!value || 'Obrigatório.',
+      min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
+    }
+
+    async resetPassword() {
+      const { resetPassword } = userAuthUser()
+
+      try {
+        await resetPassword(this.password)
+        alert("Senha alterada com sucesso!")
+        this.$router.push({ name: 'login'})
+      } catch (error) {
+        console.log(error)
       }
     }
+
   }
 </script>

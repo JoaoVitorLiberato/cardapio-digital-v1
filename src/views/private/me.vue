@@ -5,12 +5,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'HomeView',
-    data:() =>  {
-      return {}
-    },
-    mounted() {},
-    methods: {}
-  }
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
+
+  @Component({})
+
+  export default class HomeView extends mixins() {}
 </script>

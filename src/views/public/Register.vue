@@ -154,47 +154,45 @@
 <script>
   import userAuthUser from "@/middlewares/UseAuthUser";
   import "@/assets/styles/views/publicViews/login.styl"
-  
-  export default {
-    name: "RegisterView",
-    data() {
-      return {
-        form: {
-          email: '',
-          password: '',
-          termoDeUso: false
-        },
-        show: false,
-        rules: {
-          email: v => /.+@.+/.test(v) || 'Este email não é válido.',
-          required: value => !!value || 'Obrigatório.',
-          min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
-        },
-        loading: false,
-        dialog: false,
-      }
-    },
-    methods: {
-      handleTermosDeUso  () {
-        this.form.termoDeUso = true;
-        this.dialog = false
-      },
+  import { mixins } from "vue-class-component"
+  import { Component } from "vue-property-decorator"
 
-      async handleRegister () {
-        const { register } = userAuthUser()
+  @Component({})
 
-        try {
-          this.loading = true
-          await register(this.form)
-          this.loading = false
-          this.$router.push({
-            name: "email-confirmation",
-            query: { email: this.form.email}
-          })
-        } catch (error) {
-          console.log(error.message)
-        }
+  export default class RegisterView extends mixins() {
+    form = {
+      email: '',
+      password: '',
+      termoDeUso: false
+    }
+    show = false
+    rules = {
+      email: v => /.+@.+/.test(v) || 'Este email não é válido.',
+      required: value => !!value || 'Obrigatório.',
+      min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
+    }
+    loading= false
+    dialog= false
+
+    handleTermosDeUso  () {
+      this.form.termoDeUso = true;
+      this.dialog = false
+    }
+
+    async handleRegister () {
+      const { register } = userAuthUser()
+
+      try {
+        this.loading = true
+        await register(this.form)
+        this.loading = false
+        this.$router.push({
+          name: "email-confirmation",
+          query: { email: this.form.email}
+        })
+      } catch (error) {
+        console.log(error.message)
       }
     }
-  };
+  }
 </script>

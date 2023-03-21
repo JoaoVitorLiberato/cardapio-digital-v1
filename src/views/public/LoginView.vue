@@ -174,46 +174,48 @@
 </template>
 
 <script>
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import userAuthUser from "@/middlewares/UseAuthUser";
   import "@/assets/styles/views/publicViews/login.styl"
-  
-  export default {
-    name: "LoginView",
-    data() {
-      return {
-        slides: [
-          {
-            src:"/img/carrocel-login/login-1.svg"
-          },
-          {
-            src:"/img/carrocel-login/login-2.svg"
-          },
-          {
-            src:"/img/carrocel-login/login-3.svg"
-          },
-          {
-            src:"/img/carrocel-login/login-4.svg"
-          },
-          {
-            src:"/img/carrocel-login/login-5.svg"
-          },
-        ],
-        form: {
-          email: '',
-          password: ''
-        },
-        show: false,
-        rules: {
-          email: v => /.+@.+/.test(v) || 'Este email não é válido.',
-          required: value => !!value || 'Obrigatório.',
-          min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
-        },
-        loading: false,
-        dialog: false
-      };
-    },
-    methods: {
-      async handleLogin () {
+
+  @Component({})
+
+  export default class LoginView extends mixins() {
+    slides = [
+      {
+        src:"/img/carrocel-login/login-1.svg"
+      },
+      {
+        src:"/img/carrocel-login/login-2.svg"
+      },
+      {
+        src:"/img/carrocel-login/login-3.svg"
+      },
+      {
+        src:"/img/carrocel-login/login-4.svg"
+      },
+      {
+        src:"/img/carrocel-login/login-5.svg"
+      },
+    ]
+
+    form = {
+      email: '',
+      password: ''
+    }
+
+    show = false
+    loading = false
+    dialog = false
+
+    rules = {
+      email: v => /.+@.+/.test(v) || 'Este email não é válido.',
+      required: value => !!value || 'Obrigatório.',
+      min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters'
+    }
+
+    async handleLogin () {
         this.loading = true
         try {
           const { login } = userAuthUser()
@@ -226,6 +228,6 @@
           console.log(error)
         }
       }
-    }
-  };
+
+  }
 </script>
