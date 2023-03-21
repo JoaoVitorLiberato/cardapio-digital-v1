@@ -34,19 +34,23 @@
   </v-app>
 </template>
 
+
 <script>
-  export default {
-    data: () => ({
-      links: [
-        {
-          name: 'Podutos',
-          to: '/products'
-        },
-        {
-          name: 'Login',
-          to: '/login'
-        },
-      ],
-    }),
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
+
+  @Component({})
+
+  export default class LayoutPublic extends mixins() {
+    links = [
+      {
+        name: 'Podutos',
+        to: '/products'
+      },
+      {
+        name: 'Login',
+        to: '/login'
+      },
+    ]
   }
 </script>

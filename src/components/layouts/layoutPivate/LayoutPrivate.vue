@@ -47,28 +47,27 @@
 
 <script>
 import userAuthUser from '@/middlewares/UseAuthUser'
-  export default {
-    components: {},
-    data () { 
-      return {
-        drawer: null,
-        items: [
-          { title: 'Sair', to: '/' },
-        ],
-      } 
-    },
-    methods: {
-      async handleLogout () {
-        const { logout } = userAuthUser()
+import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
 
-        try {
-          await logout()
-          this.$router.replace('/')
-        } catch (error) {
-          console.log(error)
-        }
+  @Component({})
 
+  export default class LayoutPrivate extends mixins() {
+    drawer = null
+    items = [
+      { title: 'Sair', to: '/' },
+    ]
+
+    async handleLogout () {
+      const { logout } = userAuthUser()
+
+      try {
+        await logout()
+        this.$router.replace('/')
+      } catch (error) {
+        console.log(error)
       }
+
     }
   }
 </script>
