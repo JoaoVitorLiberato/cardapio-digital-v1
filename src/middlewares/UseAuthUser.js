@@ -42,8 +42,8 @@ export default function userAuthUser() {
     return data;
   };
 
-  const update = async (dataUser) => {
-    const { data, error } = await supabase.auth.updateUser(dataUser);
+  const update = async ({ email, senha, dataOpcional }) => {
+    const { data, error } = await supabase.auth.updateUser({ email, senha, dataOpcional });
     if (error) throw error;
     return data;
   };
@@ -64,24 +64,6 @@ export default function userAuthUser() {
     return data;
   };
 
-  const isLoggedIn = () => {
-   switch (store.state) {
-    case !store.state.user:
-      store.dispatch("setIslogged", false)
-      break;
-
-    case store.state.user !== null:
-      store.dispatch("setIslogged", true)
-      break;
-    
-    default:
-      store.dispatch("setIslogged", false)
-      break;
-   }
-
-   return false
-  }
-
   return {
     login,
     loginWithSocialProvider,
@@ -90,6 +72,5 @@ export default function userAuthUser() {
     sendPasswordRestEmail,
     update,
     resetPassword,
-    isLoggedIn
   };
 }

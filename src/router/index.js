@@ -1,4 +1,4 @@
-import userAuthUser from '@/middlewares/UseAuthUser'
+import store from '@/plugins/store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
@@ -20,15 +20,17 @@ router.beforeEach((to, from, next) => {
     const token = accessToken.replace("#access_token=", "")
     return router.push({ name: "reset-password", query: { token } })
   }
-  
-  const {  isLoggedIn } = userAuthUser()
 
-  if([
-    isLoggedIn(),
-    to.meta.requiresAuth,
-    !Object.keys(to.meta).includes("fromEmail")
-  ].every(o => !!o)) {
-    return router.replace({ name: "login"})
+  console.log(store.state)
+
+  if(
+    [
+      store.state.isLogged === false,
+      to.meta.requiresAuth,
+      !Object.keys(to.meta).includes("fromEmail")
+    ].every(o => !!o)
+  ) {
+    return router.push({ name: "products"})
   }
     
   next()

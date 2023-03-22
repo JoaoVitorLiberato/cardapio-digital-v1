@@ -179,6 +179,7 @@
   import userAuthUser from "@/middlewares/UseAuthUser";
   import "@/assets/styles/views/publicViews/login.styl"
 
+
   @Component({})
 
   export default class LoginView extends mixins() {
@@ -221,8 +222,8 @@
           const { login } = userAuthUser()
           await login(this.form)
           console.log("Login efetuado com sucesso!")
+          this.$router.push({ name: 'me' })
           this.loading = false
-          this.$router.replace({ name: "me"})
         } catch (error) {
           this.loading = false
           console.log(error)

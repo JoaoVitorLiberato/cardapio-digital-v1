@@ -4,19 +4,20 @@
       app
       color="white"
       flat
+      class="fix-toolbar"
     >
       <v-tabs
         centered
-        class="ml-n9"
+        class="fix-tabs ml-n9 grey darken-4"
         color="grey darken-1"
-        :style="$vuetify.breakpoint.xsOnly ? 'height: 45px;' : 'height: 42px;'"
+        :style="$vuetify.breakpoint.xsOnly ? 'height: 50px;' : 'height: 70px;'"
       >
         <v-tab
           v-for="({name, to}, index) in links"
           :key="`key-layout-public-${index}`"
         >
           <v-btn
-            class="grey--text"
+            class="white--text"
             style="text-decoration:none"
             text
             depressed
@@ -38,6 +39,7 @@
 <script>
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
+  import "@/assets/styles/components/layoutPublic.styl"
 
   @Component({})
 

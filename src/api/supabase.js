@@ -7,9 +7,7 @@ const supabase = createClient(
 );
 
 supabase.auth.onAuthStateChange((event, session) => {
-  store.dispatch("setUser", session?.user || null)
+  store.dispatch("setUser", session?.user || null);
 })
-
-
-
+  
 export default supabase
