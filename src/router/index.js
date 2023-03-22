@@ -21,17 +21,15 @@ router.beforeEach((to, from, next) => {
     return router.push({ name: "reset-password", query: { token } })
   }
 
-  console.log(store.state)
-
   if(
     [
-      store.state.isLogged === false,
+      store.state.user === null,
       to.meta.requiresAuth,
-      !Object.keys(to.meta).includes("fromEmail")
+      !Object.keys(to.meta).includes("fromEmail"),
     ].every(o => !!o)
   ) {
     return router.push({ name: "products"})
-  }
+  }  
     
   next()
 })

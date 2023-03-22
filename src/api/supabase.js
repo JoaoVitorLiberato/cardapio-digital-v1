@@ -7,6 +7,7 @@ const supabase = createClient(
 );
 
 supabase.auth.onAuthStateChange((event, session) => {
+  localStorage.setItem('auth-user', session?.user.aud )
   store.dispatch("setUser", session?.user || null);
 })
   
