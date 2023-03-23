@@ -150,6 +150,7 @@
                       color="primary"
                       x-large
                       class="my-5"
+                      @click="handleContaGoogle"
                     >
                       <span
                         class="white--text"
@@ -185,6 +186,7 @@
   import { Component, Vue } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import "@/assets/styles/views/publicViews/login.styl"
+  import supabase from "@/api/supabase"
 
 
   @Component({})
@@ -204,6 +206,19 @@
       email: v => /.+@.+/.test(v) || 'Este email não é válido.',
       required: value => !!value || 'Obrigatório.',
       min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters'
+    }
+
+    async handleContaGoogle () {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google"
+      })
+
+      if(error) throw error
+
+      if(data) {
+        console.log(data);
+        return;
+      }
     }
 
     async handleLogin () {
