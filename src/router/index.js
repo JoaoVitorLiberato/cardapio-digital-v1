@@ -20,18 +20,21 @@ router.beforeEach((to, from, next) => {
     const token = accessToken.replace("#access_token=", "")
     return router.push({ name: "reset-password", query: { token } })
   }
+ 
+  next()
+})
 
+
+router.afterEach((to) => {
   if(
     [
-      store.state.user === null,
+      !store.getters.getUser,
       to.meta.requiresAuth,
       !Object.keys(to.meta).includes("fromEmail"),
     ].every(o => !!o)
   ) {
     return router.push({ name: "products"})
-  }  
-    
-  next()
+  }
 })
 
 export default router

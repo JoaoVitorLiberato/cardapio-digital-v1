@@ -1,0 +1,24 @@
+{
+  "email": "",
+  "password": "",
+  "data": {
+    "user": {
+      "cpf": "",
+      "nomeCompleto": "",
+      "telefone":""
+    },
+    "empresa": {
+      "cnpj": "",
+      "nomeEmpresa": "",
+      "cep": "",
+      "endereco": "",
+      "bairro": "",
+      "cidade": "",
+      "uf": "",
+      "numero": "",
+      "complemento": "",
+      "wattsapp": ""
+    },
+    "termoDeUso": false
+  }
+}

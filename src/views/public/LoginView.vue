@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-parsing-error -->
 <template>
   <v-container 
     fluid
@@ -19,7 +18,16 @@
               interval="4000"
             >
               <a href="https://storyset.com/online" target="_blank">
-              <v-carousel-item v-for="(slide, i) in slides" :key="i">
+              <v-carousel-item v-for="(slide, i) in 
+                  [
+                    { src: '/img/carrocel-login/login-1.svg' },
+                    { src: '/img/carrocel-login/login-2.svg' },
+                    { src: '/img/carrocel-login/login-3.svg' },
+                    { src: '/img/carrocel-login/login-4.svg' },
+                    { src: '/img/carrocel-login/login-5.svg' },
+                ]" 
+                :key="`carrossel-images-login-${i}`"
+              >
                 <v-sheet>
                   <v-row>
                     <img :src="slide.src" alt="Online illustrations by Storyset">
@@ -174,32 +182,14 @@
 </template>
 
 <script>
-  import { Component } from "vue-property-decorator"
+  import { Component, Vue } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import userAuthUser from "@/middlewares/UseAuthUser";
   import "@/assets/styles/views/publicViews/login.styl"
 
 
   @Component({})
 
   export default class LoginView extends mixins() {
-    slides = [
-      {
-        src:"/img/carrocel-login/login-1.svg"
-      },
-      {
-        src:"/img/carrocel-login/login-2.svg"
-      },
-      {
-        src:"/img/carrocel-login/login-3.svg"
-      },
-      {
-        src:"/img/carrocel-login/login-4.svg"
-      },
-      {
-        src:"/img/carrocel-login/login-5.svg"
-      },
-    ]
 
     form = {
       email: '',
@@ -217,18 +207,27 @@
     }
 
     async handleLogin () {
+      try{
         this.loading = true
-        try {
-          const { login } = userAuthUser()
-          await login(this.form)
-          console.log("Login efetuado com sucesso!")
-          this.$router.push({ name: 'me' })
-          this.loading = false
-        } catch (error) {
-          this.loading = false
-          console.log(error)
+        const PAYLOAD_DATA = require("@/data/fieldsGlobal/fieldsGlobal.json")
+
+        if (this.form) {
+          Vue.set(PAYLOAD_DATA, "email", this.form.email)
+          Vue.set(PAYLOAD_DATA, "password", this.form.password)
         }
+
+        this.$store.dispatch("setSavedDataUserLogin", PAYLOAD_DATA)
+
+        setTimeout(() => {
+          this.loading = false
+          this.$router.push({ name: 'me' })
+        }, 1500)
+
+      } catch (error) {
+        this.loading = false
+        console.log(error)
       }
+    }
 
   }
 </script>
