@@ -77,6 +77,7 @@
                     >
                       <v-text-field
                         v-model="form.data.user.cpf"
+                        v-mask="'###.###.###-##'"
                         label="CPF"
                         class="my-0"
                         placeholder="Digite seu CPF"
@@ -103,7 +104,8 @@
                       <v-text-field
                         v-model="form.data.user.telefone"
                         label="Telefone"
-                        placeholder="Informe seu telefone / Wattsapp"
+                        v-mask="'(##) # ####-####'"
+                        placeholder="Informe seu telefone"
                         :rules="[rules.required]"
                         outlined
                         required
@@ -130,10 +132,9 @@
                         :rules="[rules.required, rules.min]"
                         :type="show ? 'text' : 'password'"
                         label="Senha"
-                        placeholder="A senha deve ser a mesma da validarmos"
+                        placeholder="Digite a mesma senha do login"
                         outlined
                         @click:append="show = !show"
-                        disabled
                       />
                     </v-col>
                     <v-col
@@ -155,7 +156,12 @@
                           </v-btn>
                           <v-btn
                             large
-                            :disabled="form.email === '' || form.password === ''"
+                            :disabled="
+                              form.data.user.cpf === '' ||
+                              form.data.user.nomeCompleto === '' ||
+                              form.data.user.telefone === '' ||
+                              form.data.user.password === ''
+                            "
                             color="primary"
                             @click="step = 2"
                           >
@@ -214,6 +220,7 @@
                       <v-text-field
                         v-model="form.data.empresa.cnpj"
                         label="CNPJ"
+                        v-mask="' ##.###.###/####-##'"
                         class="my-0"
                         placeholder="Digite seu CNPJ"
                         :rules="[rules.required]"
@@ -238,6 +245,7 @@
                     >
                       <v-text-field
                         v-model="searchCep"
+                        v-mask="'#####-###'"
                         placeholder="Informe seu CEP"
                         :rules="[rules.required]"
                         outlined
@@ -334,6 +342,7 @@
                     >
                       <v-text-field
                         v-model="form.data.empresa.wattsapp"
+                        v-mask="'## # ####-####'"
                         label="WattsApp"
                         :rules="[rules.required]"
                         outlined
@@ -426,7 +435,16 @@
                       @click="setUserData"
                       width="100%"
                     >
-                      Salvar
+                      <v-progress-circular
+                        v-if="loading"
+                        indeterminate
+                        color="white"
+                      />
+                      <span
+                        v-else
+                        v-text="'Salvar'"
+                      />
+                      
                     </v-btn>
                   </v-col>
                   <v-col
@@ -484,6 +502,7 @@
   import { mixins } from "vue-class-component"
   import { searchCep } from "@/middlewares/viaCep"
   import "@/assets/styles/components/dialogRegisterAllDatauser.styl"
+import { validarCPF } from "@/helpers/validateCpf"
 
   @Component({})
 
@@ -497,6 +516,7 @@
     show = false
     dialog= false
     searchCep = ""
+    loading = false
 
     form = {
       email: this.$store.getters.getUser.email,
@@ -517,7 +537,7 @@
           uf: "",
           numero: "",
           complemento: "",
-          wattsapp: ""
+          wattsapp: "",
         },
         termoDeUso: false
       }
@@ -536,7 +556,6 @@
     }
 
     async handleCep() {
-      console.log("Funcionou")
       const response = await searchCep(this.searchCep)
 
       if(response) {
@@ -552,14 +571,18 @@
 
     }
 
+
     async setUserData () {
       const PAYLOAD_DATA = require("@/data/dataUser/dataUser.json")
+      this.loading = true
       if(this.form) {
         Vue.set(PAYLOAD_DATA, "email", this.form.email)
         Vue.set(PAYLOAD_DATA, "password", this.form.password)
-        Vue.set(PAYLOAD_DATA.data.user, "cpf", this.form.data.user.cpf)
+        if(validarCPF(this.form.data.user.cpf)) {
+          Vue.set(PAYLOAD_DATA.data.user, "cpf", this.form.data.user.cpf)
+        }
         Vue.set(PAYLOAD_DATA.data.user, "nomeCompleto", this.form.data.user.nomeCompleto)
-        Vue.set(PAYLOAD_DATA.data.user, "telefone", this.form.data.user.telefone)
+        Vue.set(PAYLOAD_DATA.data.user, "telefone", `+55${this.form.data.user.telefone.replace(/\D/g,"")}`)
         Vue.set(PAYLOAD_DATA.data.empresa, "cnpj", this.form.data.empresa.cnpj)
         Vue.set(PAYLOAD_DATA.data.empresa, "nomeEmpresa", this.form.data.empresa.nomeEmpresa)
         Vue.set(PAYLOAD_DATA.data.empresa, "cep", this.form.data.empresa.cep)
@@ -569,11 +592,15 @@
         Vue.set(PAYLOAD_DATA.data.empresa, "uf", this.form.data.empresa.uf)
         Vue.set(PAYLOAD_DATA.data.empresa, "numero", this.form.data.empresa.numero)
         Vue.set(PAYLOAD_DATA.data.empresa, "complemento", this.form.data.empresa.complemento)
-        Vue.set(PAYLOAD_DATA.data.empresa, "wattsapp", this.form.data.empresa.wattsapp)
+        Vue.set(PAYLOAD_DATA.data.empresa, "wattsapp", `+55${this.form.data.empresa.wattsapp.replace(/\D/g,"")}`)
         Vue.set(PAYLOAD_DATA.data, "termoDeUso", this.form.data.termoDeUso)
       }
-      console.log("getter - global-filds", this.$store.getters.getGlobalFields)
+
       this.$store.dispatch("setAllDataUserComplete", PAYLOAD_DATA)
+      setTimeout(() => {
+        this.loading = false
+        this.$router.go()
+      }, 1500)
     }
     
   }

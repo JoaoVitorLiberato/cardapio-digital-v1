@@ -51,6 +51,21 @@
                   />
                 </v-col>
                 <v-col
+                v-if="loading"
+                  cols="12"
+                >
+                  <v-alert
+                    prominent
+                    rounded
+                    dense
+                    text
+                    type="success"
+                    
+                  >
+                    Email enviado para {{ email }} com sucesso.
+                  </v-alert>
+                </v-col>
+                <v-col
                   cols="12"
                 >
                   <v-btn
@@ -60,7 +75,14 @@
                     x-large
                     :disabled="email === '' || email.length < 8"
                   >
+                    <v-progress-circular
+                      v-if="loading"
+                      indeterminate
+                      color="white"
+                    />
+
                     <span 
+                      v-else
                       v-text="'Enviar para seu Email'"
                     />
                   </v-btn>
@@ -93,7 +115,9 @@
   @Component({})
 
   export default class ForgoutPasswordComponent extends mixins() {
-    email= ''
+    email = ""
+    loading = false
+    msg = ""
     rules = {
       email: v => /.+@.+/.test(v) || 'Este email não é válido.',
       required: value => !!value || 'Obrigatório.',
@@ -101,10 +125,14 @@
 
     async sendEmail() {
       const { sendPasswordRestEmail } = userAuthUser()
-
+      this.loading = true
       try {
         await sendPasswordRestEmail(this.email)
-        alert(`Email enviado para ${this.email} com sucesso.`)
+        setTimeout(() => {
+          this.loading = false
+          this.$router.push({ name: "login"})
+        }, 1500)
+
       } catch (error) {
         console.log(error)
       }

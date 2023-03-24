@@ -17,7 +17,7 @@
               show-arrows-on-hover
               interval="4000"
             >
-              <a href="https://storyset.com/online" target="_blank">
+              <a href="https://storyset.com/online" target="blank">
               <v-carousel-item v-for="(slide, i) in 
                   [
                     { src: '/img/carrocel-login/login-1.svg' },
@@ -151,10 +151,11 @@
                       x-large
                       class="my-5"
                       @click="handleContaGoogle"
+                      disabled
                     >
                       <span
                         class="white--text"
-                        v-text="'Com conta Google'"
+                        v-text="'Com conta Google (BETA)'"
                       />
                     </v-btn>
 

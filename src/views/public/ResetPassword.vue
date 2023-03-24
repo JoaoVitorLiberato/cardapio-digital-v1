@@ -39,13 +39,29 @@
                   cols="12"
                 >
                   <v-text-field
-                    width="100%"
                     v-model="password"
-                    label="Nova senha"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, rules.min]"
+                    :type="show ? 'text' : 'password'"
+                    label="Senha"
                     outlined
-                    required
+                    @click:append="show = !show"
                   />
+                </v-col>
+                <v-col
+                  v-if="loading"
+                  cols="12"
+                >
+                  <v-alert
+                    prominent
+                    rounded
+                    dense
+                    text
+                    type="success"
+                    
+                  >
+                    Sua senha foi alterada com sucesso.
+                  </v-alert>
                 </v-col>
                 <v-col
                   cols="12"
@@ -79,6 +95,8 @@
 
   export default class ResetPassword extends mixins() {
     password = ''
+    show= false
+    loading= false
     rules = {
       required: value => !!value || 'Obrigatório.',
       min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
@@ -86,15 +104,18 @@
 
     async resetPassword() {
       const { resetPassword } = userAuthUser()
-
+      this.loading = true
       try {
         await resetPassword(this.password)
-        alert("Senha alterada com sucesso!")
-        this.$router.push({ name: 'login'})
+
+        setTimeout(() => {
+          this.loading = false
+          this.$router.push({ name: 'login'})
+        }, 1500)
       } catch (error) {
+        this.loading = false
         console.log(error)
       }
     }
-
   }
 </script>
