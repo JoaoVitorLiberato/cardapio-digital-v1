@@ -2,14 +2,13 @@
   <v-app id="inspire">
     <v-app-bar
       app
-      color="white"
+      color="gray"
       flat
       class="fix-toolbar"
     >
       <v-tabs
         centered
-        class="fix-tabs ml-n9 grey darken-4"
-        color="grey darken-1"
+        color="white darken-1"
         :style="$vuetify.breakpoint.xsOnly ? 'height: 50px;' : 'height: 70px;'"
       >
         <v-tab
@@ -17,7 +16,7 @@
           :key="`key-layout-public-${index}`"
         >
           <v-btn
-            class="white--text"
+            class="gray--text"
             style="text-decoration:none"
             text
             depressed
@@ -52,6 +51,10 @@
       {
         name: 'Login',
         to: '/login'
+      },
+      {
+        name: 'Contato',
+        to: '/contact'
       },
     ]
   }
