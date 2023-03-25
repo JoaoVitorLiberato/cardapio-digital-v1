@@ -16,7 +16,11 @@ export default function userAuthUser() {
   const loginWithSocialProvider = async ({ providerName }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: providerName,
-    });
+    },
+    {
+      redirectTo: `${window.location.origin}/auth/me`
+    }
+    );
 
     if (error) throw error;
     
