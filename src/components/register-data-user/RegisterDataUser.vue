@@ -23,7 +23,7 @@
           :complete="step > 2"
           step="2"
         >
-          Dados Pessoais
+          Dados da Empresa
         </v-stepper-step>
         
         <v-divider />
@@ -138,6 +138,7 @@
                       />
                     </v-col>
                     <v-col
+                      class="mb-4"
                       cols="12 pa-0"
                     >
                       <v-row
@@ -350,6 +351,7 @@
                       />
                     </v-col>
                     <v-col
+                      class="mb-4"
                       cols="12 pa-0"
                     >
                       <v-row
@@ -410,6 +412,7 @@
                   class="px-3"
                 >
                   <v-col
+                    class="mb-4"
                     cols="12"
                   >
                     <span
@@ -547,6 +550,7 @@ import { validarCPF } from "@/helpers/validateCpf"
       email: v => /.+@.+/.test(v) || 'Este email não é válido.',
       required: value => !!value || 'Obrigatório.',
       min: v => v.length >= 8 || 'A senha deve conter no minimo 8 characters',
+      validateCpf: v => !!v || "CPF inválido!"
     }
 
 

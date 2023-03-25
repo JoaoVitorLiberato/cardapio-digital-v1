@@ -1,24 +1,25 @@
 import supabase from "@/api/supabase";
-import store from "@/plugins/store";
 
 
 export default function userAuthUser() {
   const login = async ({ email, password }) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const response = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) throw error;
+    if (response.error) throw response.error;
     
-    return store.state.user = data.user;
+    return response
   };
 
   const loginWithSocialProvider = async ({ providerName }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: providerName,
     });
+
     if (error) throw error;
+    
     return data;
   };
 

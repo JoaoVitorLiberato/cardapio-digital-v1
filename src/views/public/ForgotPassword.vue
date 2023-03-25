@@ -51,7 +51,7 @@
                   />
                 </v-col>
                 <v-col
-                v-if="loading"
+                  v-if="loading"
                   cols="12"
                 >
                   <v-alert

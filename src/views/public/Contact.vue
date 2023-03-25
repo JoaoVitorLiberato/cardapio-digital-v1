@@ -83,7 +83,8 @@
                         type="submit"
                         color="#90CAF9"
                         dark
-                        :large="$vuetify.breakpoint.mdAndUp"
+                        class="mb-4"
+                        x-large
                         :width="$vuetify.breakpoint.xsOnly? '100%' : ''"
                         :disabled="form.nome === '' || form.email === ''  || form.messagem === ''"
                       >

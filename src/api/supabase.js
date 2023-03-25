@@ -1,4 +1,5 @@
 import store from "@/plugins/store";
+import router from "@/router";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -9,6 +10,11 @@ const supabase = createClient(
 supabase.auth.onAuthStateChange((event, session) => {
   localStorage.setItem('auth-user', session?.user.aud )
   store.dispatch("setUser", session?.user || null);
+
+  if("user" in store.state && store.state.user !== null) {
+    router.push({ name: "me" })
+  }
 })
+
   
 export default supabase

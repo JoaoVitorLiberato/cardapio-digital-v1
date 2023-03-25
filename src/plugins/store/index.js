@@ -2,15 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import supabase from '@/api/supabase'
-import userAuthUser from '@/middlewares/UseAuthUser'
-
 
 Vue.use(Vuex)
-
-const { 
-login
-
-} = userAuthUser()
 
 export default new Vuex.Store({
   strict: false,
@@ -20,7 +13,8 @@ export default new Vuex.Store({
     isLogged: false,
     allDataUserComplete: null,
     fieldsGlobal: null,
-    msg: ""
+    allRight: false,
+    loading: false,
   },
   
   getters: {
@@ -36,10 +30,13 @@ export default new Vuex.Store({
       return state.allDataUserComplete
     },
 
-
     getGlobalFields(state) {
       return state.fieldsGlobal
-    }
+    },
+
+    getAllRight(state) {
+      return state.allRight
+    },
   },
 
   mutations: {
@@ -54,7 +51,11 @@ export default new Vuex.Store({
 
     setGlobalFilds(state, payload) {
       return state.fieldsGlobal = payload
-    }
+    },
+
+    setAllRight(state, ok) {
+      return state.allRight = ok
+    },
   },
 
   actions: {
@@ -64,8 +65,9 @@ export default new Vuex.Store({
 
     async setAllDataUserComplete({ commit }, payload) {
       const { data, error } = await supabase.auth.updateUser({
-        email: payload.emeil,
+        email: payload.email,
         password: payload.password,
+        phone: payload.telefone,
         data: payload.data
       })
 
@@ -77,11 +79,13 @@ export default new Vuex.Store({
       return commit('setAllDataUser', payload)
     },
 
-    async setSavedDataUserLogin({ commit, dispatch }, payload) {
-      const response = await login(payload)
-      dispatch("setUser", response)
+    setAllRightApi({ commit }, messagem ) {
+      return  commit('setAllRight', messagem)
+    },
+
+    async setSavedDataUserLogin({ commit }, payload) {
       return commit("setGlobalFilds", payload)
-    }
+    },
   }
   
 })
