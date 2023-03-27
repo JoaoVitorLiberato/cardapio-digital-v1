@@ -28,7 +28,7 @@
                 <h2
                   class="text-uppercase"
                 >
-                  Como podemos ajudar voce?
+                  Como podemos ajudar você?
                 </h2>
                 <p>
                   O botão de enviar irá aparecer após você completar todos os campos.

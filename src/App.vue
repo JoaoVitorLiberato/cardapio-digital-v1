@@ -7,9 +7,7 @@
 </template>
 
 <script>
-  import "@/assets/styles/global.styl"
-
-export default {
-  name: 'App',
-};
+  export default {
+    name: 'App',
+  };
 </script>

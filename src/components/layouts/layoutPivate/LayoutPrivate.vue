@@ -94,9 +94,8 @@
     drawer = null
     iconAccount = mdiAccount
     items = [
-      { title: 'Meus Produtos', icon: 'mdi-view-dashboard' },
+      { title: 'home', icon: 'mdi-home', to: '/auth/me' },
       { title: 'Reclamações', icon: 'mdi-message-reply-text', to: "/auth/complaints" },
-      { title: 'Sobre', icon: 'mdi-help-box' },
     ]
 
     async handleLogout () {

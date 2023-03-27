@@ -56,6 +56,10 @@
         name: 'Contato',
         to: '/contact'
       },
+      {
+        name: 'Sobre',
+        to: '/about'
+      },
     ]
   }
 </script>
