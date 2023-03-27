@@ -60,6 +60,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "me-view-private" */ '@/views/private/me.vue'),
         meta: {  requiresAuth: true }
       },
+      {
+        path: "complaints",
+        name: "complaints",
+        component: () => import(/* webpackChunkName: "complaints-view-private" */ '@/views/private/Complaints.vue'),
+        meta: {  requiresAuth: true }
+      },
     ],
   },
   {

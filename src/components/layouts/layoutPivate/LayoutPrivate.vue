@@ -63,6 +63,7 @@
           v-for="item in items"
           :key="item.title"
           link
+          :to="item.to"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -94,6 +95,7 @@
     iconAccount = mdiAccount
     items = [
       { title: 'Meus Produtos', icon: 'mdi-view-dashboard' },
+      { title: 'Reclamações', icon: 'mdi-message-reply-text', to: "/auth/complaints" },
       { title: 'Sobre', icon: 'mdi-help-box' },
     ]
 
