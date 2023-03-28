@@ -1,22 +1,21 @@
 <template>
   <v-container
-    class="mt-12"
+    class="fix-container-me"
   >
     <v-row
       no-gutters
       justify="center"
       align="center"
       class="p-0"
-      style="height:100px"
     >
       <v-col
         cols="12"
       >
         <v-row
-          class="blue-grey lighten-4"
+          class="fix-container-header blue-grey lighten-4"
         >
           <v-col
-            cols="8"
+            :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
           >
             <h2>
               ola, João.
@@ -29,7 +28,9 @@
             </p>
           </v-col>
           <v-col
-            cols="4"
+            :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
+            justify="center"
+            align="center"
           >
             <div
               class="conatiner__image"

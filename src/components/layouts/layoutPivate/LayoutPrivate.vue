@@ -165,10 +165,6 @@ export default class LayoutPrivate extends mixins() {
 
   store = this.$store.getters.getUser
 
-  mounted() {
-    console.log(this.$store.getters.getUser)
-  }
-
   async handleLogout() {
     const { logout } = userAuthUser();
 
