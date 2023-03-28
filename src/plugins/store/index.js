@@ -67,7 +67,6 @@ export default new Vuex.Store({
       const { data, error } = await supabase.auth.updateUser({
         email: payload.email,
         password: payload.password,
-        phone: payload.telefone,
         data: payload.data
       })
 

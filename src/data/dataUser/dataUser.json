@@ -2,23 +2,23 @@
   "email": "",
   "password": "",
   "data": {
-    "user": {
+    "cliente": {
       "cpf": "",
-      "nomeCompleto": "",
-      "telefone":""
-    },
-    "empresa": {
-      "cnpj": "",
-      "nomeEmpresa": "",
-      "cep": "",
-      "endereco": "",
-      "bairro": "",
-      "cidade": "",
-      "uf": "",
-      "numero": "",
-      "complemento": "",
-      "wattsapp": ""
-    },
-    "termoDeUso": false
+      "primeiroNome": "",
+      "sobrenome": "",
+      "wattsapp": "",
+      "empresa": {
+        "cnpj": "",
+        "nomeEmpresa": "",
+        "cep": "",
+        "endereco": "",
+        "bairro": "",
+        "cidade": "",
+        "uf": "",
+        "numero": "",
+        "complemento": ""
+      },
+      "termoDeUso": false
+    }
   }
 }

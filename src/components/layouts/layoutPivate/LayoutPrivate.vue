@@ -1,115 +1,183 @@
 <template>
   <v-app>
-    <v-app-bar app dark>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <!-- <v-toolbar-title>Title</v-toolbar-title> -->
+    <v-app-bar 
+      dark 
+      app
+    >
+      <v-app-bar-nav-icon 
+        @click="drawer = !drawer" 
+      />
+
       <v-spacer />
-      <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          v-on="on"
-          rounded
-          dark
-          text
-          dense
+
+      <v-menu 
+        bottom min-width="200px" 
+        rounded offset-y
+      >
+        <template 
+          v-slot:activator="{ on }"
         >
-          <v-icon>
-            {{ iconAccount }}
-          </v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item>
-          <v-btn
-            class="black--text font-wight-bold"
-            style="text-decoration:none"
-            text
-            depressed
-            plain
-            @click="handleLogout"
+          <v-btn 
+            v-on="on" 
+            rounded 
+            dark 
+            text 
+            dense
           >
-            Sair
+            <v-icon>
+              {{ iconAccount }}
+            </v-icon>
           </v-btn>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+        </template>
+        <v-card>
+          <v-list-item-content 
+            class="justify-center"
+          >
+            <div 
+              class="mx-auto text-center"
+            >
+              <v-avatar 
+                color="gray"
+              > 
+                <img
+                  v-if="store.user_metadata.avatar_url"
+                  :src="store.user_metadata.avatar_url" 
+                  alt="Imagem do usuário"
+                >
+                <img
+                  v-else
+                  src="https://th.bing.com/th/id/R.01929f904dd2947c7080442a49803661?rik=MN6OtCPYCVMVIQ&pid=ImgRaw&r=0" 
+                  alt="Imagem de um avatar anonimo"
+                >
+              </v-avatar>
+
+              <h3
+                class="pt-5"
+              >
+                {{ store.user_metadata.cliente.primeiroNome }}
+              </h3>
+
+              <p 
+                class="text-caption mt-1 px-1"
+              >
+                {{  store.email }}
+              </p>
+
+              <v-divider 
+                class="my-3" 
+              />
+
+              <v-btn 
+                depressed 
+                rounded 
+                text
+              > 
+                Edit Account 
+              </v-btn>
+
+              <v-divider
+                class="my-3" 
+              />
+
+              <v-btn
+                class="black--text font-wight-bold"
+                style="text-decoration: none"
+                text
+                depressed
+                plain
+                @click="handleLogout"
+              >
+                Sair
+              </v-btn>
+            </div>
+          </v-list-item-content>
+        </v-card>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer
       v-model="drawer"
       fixed
       temporary
+      clipped
       dark
       class="text-uppercase"
     >
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h6">
+          <v-list-item-title 
+            class="text-h6"
+          >
             Cardápio Digital
           </v-list-item-title>
-          <v-list-item-subtitle>
-            v 1.0
-          </v-list-item-subtitle>
+          <v-list-item-subtitle> v 1.0 </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider></v-divider>
+      <v-divider />
 
-      <v-list
-        dense
+      <v-list 
+        dense 
         nav
       >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          :to="item.to"
+        <v-list-item 
+          v-for="item in items" 
+          :key="item.title" 
+          link :to="item.to"
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-      <router-view/>
+    <router-view />
   </v-app>
 </template>
 
 <script>
-  import { mdiAccount } from '@mdi/js'
+import { mdiAccount } from "@mdi/js";
 
+import userAuthUser from "@/middlewares/UseAuthUser";
+import { Component } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
 
-  import userAuthUser from '@/middlewares/UseAuthUser'
-  import { Component } from "vue-property-decorator"
-  import { mixins } from "vue-class-component"  
-  
-  @Component({})
+@Component({})
+export default class LayoutPrivate extends mixins() {
+  drawer = null;
+  iconAccount = mdiAccount;
+  items = [
+    { title: "home", icon: "mdi-home", to: "/auth/me" },
+    {
+      title: "Reclamações",
+      icon: "mdi-message-reply-text",
+      to: "/auth/complaints",
+    },
+  ];
 
+  store = this.$store.getters.getUser
 
-  export default class LayoutPrivate extends mixins() {
-    drawer = null
-    iconAccount = mdiAccount
-    items = [
-      { title: 'home', icon: 'mdi-home', to: '/auth/me' },
-      { title: 'Reclamações', icon: 'mdi-message-reply-text', to: "/auth/complaints" },
-    ]
+  mounted() {
+    console.log(this.$store.getters.getUser)
+  }
 
-    async handleLogout () {
-      const { logout } = userAuthUser()
+  async handleLogout() {
+    const { logout } = userAuthUser();
 
-      try {
-
-        await logout()
-        this.$router.replace('/login')
-        
-      } catch (error) {
-        console.log(error)
-      }
-
+    try {
+      await logout();
+      this.$router.replace("/login");
+    } catch (error) {
+      console.log(error);
     }
   }
+}
 </script>
