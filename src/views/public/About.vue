@@ -1,5 +1,5 @@
 <template>
-  <v-cotainer>
+  <v-container>
     <v-row
       no-gutters
     >
@@ -81,7 +81,7 @@
         </v-row>
       </v-col>
     </v-row>
-  </v-cotainer>
+  </v-container>
 </template>
 
 <script>

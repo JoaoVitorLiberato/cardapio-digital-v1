@@ -9,7 +9,7 @@
       <v-tabs
         centered
         color="white darken-1"
-        :style="$vuetify.breakpoint.xsOnly ? 'height: 50px;' : 'height: 70px;'"
+        :style="$vuetify.breakpoint.xsOnly ? 'height: 60px;' : 'height: 70px;'"
       >
         <v-tab
           v-for="({name, to}, index) in links"
