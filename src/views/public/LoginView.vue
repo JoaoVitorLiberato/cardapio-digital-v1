@@ -241,8 +241,9 @@
       }
 
       await login(PAYLOAD_DATA)
-      this.loading = false
+      setTimeout(() => {
+        this.loading = false
+      }, 1400)
     }
-
   }
 </script>

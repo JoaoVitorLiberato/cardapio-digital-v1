@@ -18,7 +18,7 @@
             :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
           >
             <h2
-              v-text="` Olá, ${store.user_metadata.cliente.primeiroNome}`"
+              v-text="'Olá, User'"
             />
           </v-col>
           <v-col
@@ -39,35 +39,12 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col
-        cols="12"
-      >
-        <v-row
-          justify="center"
-          class="mt-8"
-        >
-          <v-col
-            cols="12"
-          >
-            <h2
-              class="font-weight-bold text-uppercase"
-            >
-              Seus Produtos
-            </h2>
-          </v-col>
-        </v-row>
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-          :items-per-page="5"
-          class="elevation-1"
-        />
-      </v-col>
     </v-row>
-    <RegisterUSer 
+    <!-- <RegisterUSer 
       :isOpen="dialogRegisterAllDataUser"
       @closeDialogRegisterAlldata="handleDialogRegisterAllDataUser"
-    />
+    /> -->
+    <RegisterUSer />
   </v-container>
 </template>
 
@@ -80,7 +57,7 @@
     components: {
       RegisterUSer: () => ({
         component: import(
-          /* webpackChunkName: "user-register-component" */
+          /* webpackChunkName: "data-register-component" */
           /* webpackMode: "eager" */
           "@/components/register-data-user/RegisterDataUser.vue"
         )
@@ -89,54 +66,13 @@
   })
 
   export default class HomeView extends mixins() {
-    dialogRegisterAllDataUser = true
-    store = this.$store.getters.getUser
-
-    headers = [
-      {
-        text: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      { text: 'Calories', value: 'calories' },
-    ]
-  desserts = [
-    {
-      name: 'Frozen Yogurt',
-      calories: 159,
-      fat: 6.0,
-      carbs: 24,
-      protein: 4.0,
-      iron: 1,
-    }
-    ]
 
     mounted() {
-      console.log(this.store)
+      console.log(this.$store.getters.getUser);
     }
 
-    created() {
-      const handleMetaDataUserVoid = () => {
-        if 
-        (
-          [
-            "cliente" in this.$store.state.user.user_metadata,
-            "cpf" in this.$store.state.user.user_metadata.cliente,
-            "wattsapp" in this.$store.state.user.user_metadata.cliente
-          ].every(o => !!o))
-        {
-          return this.dialogRegisterAllDataUser = false
-        }
+    created() {}
 
-        return this.dialogRegisterAllDataUser = true
-      }
-
-      handleMetaDataUserVoid()
-    }
-
-    handleDialogRegisterAllDataUser () {
-      this.dialogRegisterAllDataUser = false
-    }
+    handleDialogRegisterAllDataUser () {}
   }
 </script>

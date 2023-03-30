@@ -36,31 +36,10 @@
             <div 
               class="mx-auto text-center"
             >
-              <v-avatar 
-                color="gray"
-              > 
-                <img
-                  v-if="store.user_metadata.avatar_url"
-                  :src="store.user_metadata.avatar_url" 
-                  alt="Imagem do usuário"
-                >
-                <img
-                  v-else
-                  src="https://th.bing.com/th/id/R.01929f904dd2947c7080442a49803661?rik=MN6OtCPYCVMVIQ&pid=ImgRaw&r=0" 
-                  alt="Imagem de um avatar anonimo"
-                >
-              </v-avatar>
-
-              <h3
-                class="pt-5"
-              >
-                {{ store.user_metadata.cliente.primeiroNome }}
-              </h3>
-
               <p 
                 class="text-caption mt-1 px-1"
               >
-                {{  store.email }}
+                <!-- {{  store.email }} --> Email
               </p>
 
               <v-divider 

@@ -11,8 +11,11 @@ supabase.auth.onAuthStateChange((event, session) => {
   localStorage.setItem('auth-user', session?.user.aud )
   store.dispatch("setUser", session?.user || null);
 
+  // Essa condicional leva o usuario para page 'me' caso ele(a) estaja autenticado
   if("user" in store.state && store.state.user !== null) {
-    router.push({ name: "me" })
+    setTimeout(() => {
+      router.push({ name: "me" })
+    }, 1500)
   }
 })
 
