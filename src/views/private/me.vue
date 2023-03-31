@@ -40,11 +40,10 @@
         </v-row>
       </v-col>
     </v-row>
-    <!-- <RegisterUSer 
+    <RegisterUSer 
       :isOpen="dialogRegisterAllDataUser"
       @closeDialogRegisterAlldata="handleDialogRegisterAllDataUser"
-    /> -->
-    <RegisterUSer />
+    />
   </v-container>
 </template>
 
@@ -67,12 +66,16 @@
 
   export default class HomeView extends mixins() {
 
+    dialogRegisterAllDataUser = true
+
     mounted() {
       console.log(this.$store.getters.getUser);
     }
 
     created() {}
 
-    handleDialogRegisterAllDataUser () {}
+    handleDialogRegisterAllDataUser () {
+      this.dialogRegisterAllDataUser = false
+    }
   }
 </script>
