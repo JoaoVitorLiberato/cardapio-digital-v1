@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="#EB310CBF"
+      color="#d92400"
       dark
       dense
       flat
@@ -32,9 +32,12 @@
         </v-tab>
       </v-tabs>
     </v-app-bar>
-    <v-main>
+    <v-main
+      class="fix-main-content"
+    >
       <router-view/>
     </v-main>
+    <FooterComponent />
   </v-app>
 </template>
 
@@ -43,7 +46,17 @@
   import { mixins } from "vue-class-component"
   import "@/assets/styles/components/layoutPublic.styl"
 
-  @Component({})
+  @Component({
+    components: {
+      FooterComponent: () => ({
+        component: import(
+          /* webpackChunkName: "data-register-component" */
+          /* webpackMode: "eager" */
+          "@/components/footer/Footer.vue"
+        ) 
+      })
+    }
+  })
 
   export default class LayoutPublic extends mixins() {
     links = [

@@ -122,6 +122,7 @@
       </v-list>
     </v-navigation-drawer>
     <router-view />
+    <FooterComponent />
   </v-app>
 </template>
 
@@ -132,7 +133,17 @@
   import { mixins } from "vue-class-component";
   import "@/assets/styles/components/layoutPrivate.styl"
 
-  @Component({})
+  @Component({
+    components: {
+      FooterComponent: () => ({
+        component: import(
+          /* webpackChunkName: "data-register-component" */
+          /* webpackMode: "eager" */
+          "@/components/footer/Footer.vue"
+        ) 
+      })
+    }
+  })
   export default class LayoutPrivate extends mixins() {
     drawer = null;
     iconAccount = mdiAccount;

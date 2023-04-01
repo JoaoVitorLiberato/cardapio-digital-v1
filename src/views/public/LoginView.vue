@@ -8,7 +8,6 @@
       >
         <v-row
           justify="center"
-          align="center"
         >
           <v-col
             :cols="$vuetify.breakpoint.smAndDown ? '12' : '6'"
@@ -41,7 +40,7 @@
           >
             <v-form
               @submit.prevent="handleLogin"
-              class="px-3 my-2"
+              :class="$vuetify.breakpoint.smAndDown ?  'px-3' : 'mt-12 ml-8'"
             >
               <v-row>
                 <v-col
