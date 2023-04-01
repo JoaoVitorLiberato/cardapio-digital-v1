@@ -679,8 +679,8 @@
 
       if(this.formCompany) {
         Vue.set(PAYLOAD_DATA, "nome", this.formCompany.nome)
-        Vue.set(PAYLOAD_DATA, "cnpj",  this.formCompany.cnpj.replace(/\D/g,""))
-        Vue.set(PAYLOAD_DATA, "cep", this.formCompany.cnpj.replace(/\D/g,""))
+        Vue.set(PAYLOAD_DATA, "cnpj",  this.formCompany.cnpj)
+        Vue.set(PAYLOAD_DATA, "cep", this.formCompany.cep)
         Vue.set(PAYLOAD_DATA, "endereco", this.formCompany.endereco)
         Vue.set(PAYLOAD_DATA, "bairro", this.formCompany.bairro)
         Vue.set(PAYLOAD_DATA, "cidade", this.formCompany.cidade)

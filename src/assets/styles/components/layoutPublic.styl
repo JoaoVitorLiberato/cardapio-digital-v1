@@ -1,2 +1,9 @@
+@import "../extends/media.styl"
+
 .fix-toolbar
-    // transform: translateY(-10px) !important
+  // @extend @media({$mdAndUp})
+  //   transform: translateY(-10px) !important
+  .fix-tabs-layout-public
+    .v-item-group
+      .v-slide-group__prev
+        display: none !important

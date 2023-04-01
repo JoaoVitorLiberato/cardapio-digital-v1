@@ -1,8 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar 
-      dark 
+    <v-app-bar
       app
+      dark
+      color="#d92400"
+      class="fix-toolbar-private"
     >
       <v-app-bar-nav-icon 
         @click="drawer = !drawer" 
@@ -80,6 +82,7 @@
       temporary
       clipped
       dark
+      color="#EB310CBF"
       class="text-uppercase"
     >
       <v-list-item>
@@ -123,36 +126,36 @@
 </template>
 
 <script>
-import { mdiAccount } from "@mdi/js";
+  import { mdiAccount } from "@mdi/js";
+  import userAuthUser from "@/middlewares/UseAuthUser";
+  import { Component } from "vue-property-decorator";
+  import { mixins } from "vue-class-component";
+  import "@/assets/styles/components/layoutPrivate.styl"
 
-import userAuthUser from "@/middlewares/UseAuthUser";
-import { Component } from "vue-property-decorator";
-import { mixins } from "vue-class-component";
+  @Component({})
+  export default class LayoutPrivate extends mixins() {
+    drawer = null;
+    iconAccount = mdiAccount;
+    items = [
+      { title: "home", icon: "mdi-home", to: "/auth/me" },
+      {
+        title: "Reclamações",
+        icon: "mdi-message-reply-text",
+        to: "/auth/complaints",
+      },
+    ];
 
-@Component({})
-export default class LayoutPrivate extends mixins() {
-  drawer = null;
-  iconAccount = mdiAccount;
-  items = [
-    { title: "home", icon: "mdi-home", to: "/auth/me" },
-    {
-      title: "Reclamações",
-      icon: "mdi-message-reply-text",
-      to: "/auth/complaints",
-    },
-  ];
+    store = this.$store.getters.getUser
 
-  store = this.$store.getters.getUser
+    async handleLogout() {
+      const { logout } = userAuthUser();
 
-  async handleLogout() {
-    const { logout } = userAuthUser();
-
-    try {
-      await logout();
-      this.$router.replace("/login");
-    } catch (error) {
-      console.log(error);
+      try {
+        await logout();
+        this.$router.replace("/login");
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
-}
 </script>

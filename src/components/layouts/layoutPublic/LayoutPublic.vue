@@ -1,15 +1,19 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar
       app
-      color="gray"
+      color="#EB310CBF"
+      dark
+      dense
       flat
       class="fix-toolbar"
+      style="height: 50px;"
     >
       <v-tabs
+        class="fix-tabs-layout-public"
         centered
-        color="white darken-1"
-        :style="$vuetify.breakpoint.xsOnly ? 'height: 60px;' : 'height: 70px;'"
+        color="white"
+        :style="$vuetify.breakpoint.xsOnly ? 'height: 50px;' : 'height: 70px;'"
       >
         <v-tab
           v-for="({name, to}, index) in links"
@@ -33,7 +37,6 @@
     </v-main>
   </v-app>
 </template>
-
 
 <script>
   import { Component } from "vue-property-decorator"

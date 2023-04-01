@@ -37,8 +37,27 @@
               <v-col
                 cols="12"
               >
+                <v-col
+                  v-if="loading"
+                  cols="12 pa-0"
+                > 
+                  <v-alert
+                    v-if="statusError"
+                    type="error"
+                  >
+                    deu errado
+                  </v-alert>
+                  <v-alert
+                    v-else
+                    type="success"
+                  >
+                    deu certo
+                  </v-alert>
+                </v-col>
                 <v-form
+                  class="mt-3"
                   @submit.prevent="sendContact"
+                  @keydown.enter="sendContact"
                 >
                   <v-row
                     class="px-2"
@@ -81,7 +100,7 @@
                     > 
                       <v-btn
                         type="submit"
-                        color="#90CAF9"
+                        color="#EB310CBF"
                         dark
                         class="mb-4"
                         x-large
@@ -101,24 +120,6 @@
                           v-text="'Enviar'"
                         />
                       </v-btn>
-                    </v-col>
-                    <v-col
-                      v-if="loading"
-                      class="mt-3"
-                      cols="12 pa-0"
-                    > 
-                      <v-alert
-                        v-if="statusError"
-                        type="error"
-                      >
-                        deu errado
-                      </v-alert>
-                      <v-alert
-                        v-else
-                        type="success"
-                      >
-                        deu certo
-                      </v-alert>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -155,23 +156,24 @@
       const { error } = await supabase.from("contact-public").insert(this.form)
 
       if(error) {
-        setTimeout(() => {
-          this.loading = false
-        }, 5000)
         this.statusError = true
         this.statusMsg = `
           Houve algum problema no envio da sua mensagem, por favor, 
           entre em contato com nossa equipe de desenvolvimento
         `
+        setTimeout(() => {
+          this.loading = false
+        }, 3000)
       }
 
-      setTimeout(() => {
-        this.loading = false
-      }, 3000)
       this.statusMsg = `
         Sua menssagem foi enviada com sucesso, tentaremos resolver seu problema o mais rápido
         possível. Ass: Equipe técnica.
       `
+      setTimeout(() => {
+        this.loading = false
+        this.$router.push({ name: "products"})
+      }, 3000)
     }
 
   }

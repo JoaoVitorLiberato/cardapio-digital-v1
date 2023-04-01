@@ -7,33 +7,35 @@
         cols="12"
       >
         <v-row
-          class="mx-2"
           justify="center"
+          align="center"
         >
           <v-col
             :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
           >
-            <h1
-              class="mb-3"
-            >
-              Quem somos?
-            </h1>
-            <p>
-              Somos um site feito de para pessoas que possam divulgar seus trabalhos, ou seja,
-              dando visibilidade de forma gratuita para os empreendedores.
-              O intuito do nosso site não é apenas facilitar apenas na divulgação e sim, 
-              também nas vendas via Wattsapp, para caso o cliente seja da mesma região ou cidade.
-            </p>
+            <a href="https://storyset.com/business">
+              <img 
+                src="/img/about/about1.svg" 
+                alt="Business illustrations by Storyset"
+              >
+            </a>
           </v-col>
           <v-col
             :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
           >
-          <a href="https://storyset.com/business">
-            <img 
-              src="/img/about/about1.svg" 
-              alt="Business illustrations by Storyset"
+            <h1
+              class="mb-3 font-weight-bold"
             >
-          </a>
+              Quem somos?
+            </h1>
+            <p
+              class="font-weight-regular"
+            >
+              Somos um site feito de para pessoas que possam divulgar seus trabalhos gerando 
+              visibilidade de forma gratuita para seus negócios.
+              O intuito do nosso site é facilitar em suas divulgações divulgação e também 
+              nas vendas via Wattsapp, para caso o cliente seja da mesma região ou cidade.
+            </p>
           </v-col>
         </v-row> 
       </v-col>
@@ -41,22 +43,41 @@
         class="mt-8"
         cols="12"
       >
-        <v-row
-          class="mx-2"
-        >
+        <v-row>
           <v-col
-            :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
+            :cols="$vuetify.breakpoint.xsOnly ? '12' : '5'"
           >
-            <h2>
-              Perguntas frequentes
-            </h2>
-            <p>
-              Nesta seção estará disponivel para você algumas peguntas onde você
-              irá saber um pouco sobre nosso sistema.
-            </p>
+            <v-row>
+              <v-col
+                cols="12"
+                :class="$vuetify.breakpoint.mdAndUp ? '' : ''"
+              >
+                <h2
+                  class="font-weight-bold"
+                >
+                  Perguntas frequentes
+                </h2>
+                <p
+                  class="font-weight-regular"
+                >
+                  Nesta seção estará disponivel para você algumas peguntas onde você
+                  para caso você fique com duvidas em relação ao funcionamento do nosso sistema.
+                </p>
+              </v-col>
+              <v-col
+               cols="12"
+              >
+                <img 
+                  src="/img/about/about2.svg" 
+                  alt="Business illustrations by Storyset"
+                  height="300"
+                >
+              </v-col>
+            </v-row>
           </v-col>
           <v-col
-            :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
+            :cols="$vuetify.breakpoint.xsOnly ? '12' : '5'"
+            :style="$vuetify.breakpoint.xsOnly ? '' : 'margin-left:136px'"
           >
             <v-expansion-panels
               focusable
@@ -67,7 +88,7 @@
                 :key="`question-${index}`"
               >
                 <v-expansion-panel-header
-                  color="#ec973c"
+                  color="#EB310CBF"
                 >
                   <span
                     class="text-uppercase font-weight-bold"

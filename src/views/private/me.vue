@@ -12,30 +12,142 @@
         cols="12"
       >
         <v-row
-          class="fix-container-header blue-grey lighten-4"
+          class="fix-container-header"
         >
           <v-col
             :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
           >
-            <h2
-              v-text="'Olá, User'"
-            />
+            <v-row>
+              <v-col
+                cols="12"
+                class="mt-5"
+              >
+                <h2
+                  v-if="dataClientFiltered.primeiroNome"
+                  class="white--text text-uppercase"
+                  v-text="`Olá, ${dataClientFiltered.primeiroNome}`"
+                />
+                <h2
+                  v-else
+                  v-text="'Olá, User'"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+              >
+                <div
+                  class="fix-card-list-data-company text--white text-uppercase"
+                >
+                  <v-row
+                    v-if="dataCompanyFiltered"
+                    justify="center"
+                    class="text-center"
+                  >
+                    <v-col
+                      cols="12"
+                      class="pt-6"
+                    >
+                      <span
+                        class="font-weight-bold white--text"
+                        v-text="dataCompanyFiltered.nome"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12 py-0"
+                      
+                    >
+                      <v-divider
+                        color="#fff"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="pb-4 pt-5"
+                    >
+                      <span
+                        class="white--text"
+                        v-text="dataCompanyFiltered.cnpj"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12 py-0"
+                      
+                    >
+                      <v-divider
+                        color="#fff"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="pb-5"
+                    >
+                      <span
+                        class="white--text"
+                        v-text="`Autorizado para deixar dados da empresa público: ${dataCompanyFiltered.autorizacaoPublicData === true ? 'Sim' : 'Não'}`"
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    v-else
+                    justify="center"
+                    class="text-center"
+                  >
+                    <v-col
+                      cols="12"
+                      class="pt-6"
+                    >
+                      <span
+                        class="font-weight-bold"
+                        v-text="'Nome da empresa'"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12 py-0" 
+                    >
+                      <v-divider
+                        color="#fff"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="pb-4 pt-5"
+                    >
+                      <span
+                        v-text="'CNPJ da empresa'"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12 py-0"
+                    >
+                      <v-divider
+                        color="#fff"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="pb-5"
+                    >
+                      <span
+                        v-text="'Autorização para deixar dados da empresa público'"
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col
             :cols="$vuetify.breakpoint.xsOnly ? '12' : '6'"
             justify="center"
             align="center"
           >
-            <div
-              class="conatiner__image"
+            <img 
+              class="fix-image-header"
+              src="/img/header-me/header.svg" 
+              alt="SVG Exemplificando os dados da de balanço de uma empresa"
+              width="100%"
+              height="100%"
             >
-              <img 
-                src="https://cdn3.iconfinder.com/data/icons/seo-and-web-optimization-1/200/vector_416_03-512.png" 
-                alt="Imagem da logo da empresa"
-                width="100%"
-                height="100%"
-              >
-            </div>
           </v-col>
         </v-row>
       </v-col>
@@ -71,6 +183,8 @@
   export default class HomeView extends mixins() {
 
     dialogRegisterAllDataUser = false
+    dataCompanyFiltered = []
+    dataClientFiltered = []
 
     created() {
       const validateDataUser = async () => {
@@ -84,6 +198,9 @@
         const companyFiltered = company.find(item =>  {
           return item.user_id === this.$store.getters.getUser.id
         });
+        
+        this.dataClientFiltered = clientFiltered
+        this. dataCompanyFiltered = companyFiltered
         
         /*
           Essa logica eu fiz para retorna o primeiro indice da tabela que tivesse

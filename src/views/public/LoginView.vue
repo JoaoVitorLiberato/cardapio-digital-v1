@@ -97,7 +97,7 @@
                         :disabled="form.email === ''|| form.senha ===''"
                         type="submit"
                         width="100%"
-                        color="primary"
+                        color="#EB310CBF"
                         x-large
                       >
                         <v-progress-circular
