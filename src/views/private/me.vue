@@ -51,6 +51,10 @@
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import "@/assets/styles/views/privateViews/me.styl"
+  import useBD from "@/middlewares/useBD"
+
+  const { list } = useBD()
+
 
   @Component({
     components: {
@@ -66,13 +70,59 @@
 
   export default class HomeView extends mixins() {
 
-    dialogRegisterAllDataUser = true
+    dialogRegisterAllDataUser = false
 
-    mounted() {
-      console.log(this.$store.getters.getUser);
+    created() {
+      const validateDataUser = async () => {
+        const client = await list("client")
+        const company = await list("company")
+       
+        const clientFiltered = client.find(item =>  {
+          return item.user_id === this.$store.getters.getUser.id
+        });
+
+        const companyFiltered = company.find(item =>  {
+          return item.user_id === this.$store.getters.getUser.id
+        });
+        
+        /*
+          Essa logica eu fiz para retorna o primeiro indice da tabela que tivesse
+          o mesmo user_id do usuario que está logado caso já estiver 
+          com os dados cadastrado no BD, por eu achar que estava muito verbezo,
+          eu procurei outro metodo e fiz com find() .
+        */
+
+        // let clientFiltered;
+        // let companyFiltered;
+
+        // if(client !== null && company !== null) {
+        //   for (let client = 0; client < client.length; client++) {
+        //     for (let company = 0; company < client.length; company++) {
+        //       clientFiltered = client[client].user_id
+        //       companyFiltered = company[company].user_id
+        //       console.log(client[client].user_id)
+        //       console.log(company[company].user_id)
+        //     }
+        //   }
+        // }
+
+        if([
+          this.$store.getters.id,
+          !clientFiltered === this.$store.getters.id, 
+          !companyFiltered === this.$store.getters.id
+        ].every(o => !!o)) {
+          console.log("necessita cadastrar seus dados.");
+          this.dialogRegisterAllDataUser = true
+          return; 
+        }
+
+        console.log(`Já existe dados do email: ${this.$store.getters.getUser.email} cadastrado em nosso banco de dados.`)
+        this.dialogRegisterAllDataUser = false
+        return; 
+      } 
+
+      validateDataUser()
     }
-
-    created() {}
 
     handleDialogRegisterAllDataUser () {
       this.dialogRegisterAllDataUser = false

@@ -160,8 +160,11 @@
 
                         <v-card-text
                           class="mt-5"
-                          v-text="'O senhor(a) autoriza o armazanamento dos seus dados pessoais em nosso bando de dados?'"
-                        />
+                        >
+                          <span 
+                            v-text="'O senhor(a) autoriza o armazanamento dos seus dados pessoais em nosso bando de dados?'"
+                          />
+                        </v-card-text>
                           
                         <v-divider />
 
@@ -412,8 +415,11 @@
 
                         <v-card-text
                           class="mt-5"
-                          v-text="'O senhor(a) autoriza o armazanamento dos dados em nosso bando de dados e deixa-los publicos para que os clientes possa ve-los??'"
-                        />
+                        >
+                          <span 
+                            v-text="'O senhor(a) autoriza o armazanamento dos dados em nosso bando de dados e deixa-los publicos para que os clientes possa ve-los??'"
+                          />
+                        </v-card-text>
                           
                         <v-divider />
 
@@ -544,7 +550,7 @@
   import { validarCPF } from "@/helpers/validateCpf"
   import useBD from "@/middlewares/useBD"
 
-  const { post } = useBD()
+  const { post, list } = useBD()
 
   @Component({})
 
@@ -597,6 +603,24 @@
       }
     }
 
+    mounted () {
+      const clientRegisted = async () => {
+        const client = await list("client")
+        if(client) {
+          
+        const clientFiltered = client.find(item =>  {
+          return item.user_id === this.$store.getters.getUser.id
+        });
+
+          if (clientFiltered) {
+            this.step = 2
+          }
+        }
+      }
+
+      clientRegisted()
+    }
+
     handleTermosDeUso  () {
       this.formClient.termoDeUso = true;
       this.dialogClient = false
@@ -606,6 +630,7 @@
       this.formCompany.autorizacaoPublic= true;
       this.dialogCompany = false
     }
+
 
     async handleDataClient () {
       const PAYLOAD_DATA = require("@/data/client/client.json");
