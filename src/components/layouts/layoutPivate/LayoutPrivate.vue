@@ -121,7 +121,9 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <router-view />
+    <v-main>
+      <router-view />
+    </v-main>
     <FooterComponent />
   </v-app>
 </template>

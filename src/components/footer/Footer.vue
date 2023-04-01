@@ -2,7 +2,6 @@
   <v-footer
     color="#d92400"
     padless
-    app
   >
     <v-row
       justify="center"

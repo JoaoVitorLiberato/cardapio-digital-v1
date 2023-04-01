@@ -151,6 +151,156 @@
           </v-col>
         </v-row>
       </v-col>
+      <v-col
+        cols="12"
+        class="mt-10"
+      >
+        <v-row>
+          <v-col
+            cols="12"
+            class="text-end"
+          >
+            <v-btn
+              dark
+              x-large
+              color="#EB310CBF"
+            >
+              <span 
+                v-text="'Adcionar'"
+              />
+            </v-btn>
+          </v-col>
+          <v-col
+            cols="12"
+          >
+            <v-slide-group
+              v-if="$vuetify.breakpoint.mdAndUp"
+              v-model="model"
+              class="pa-4"
+              active-class="success"
+              show-arrows
+            >
+              <v-slide-item
+                v-for="n in 5"
+                :key="n"
+              >
+                <v-card
+                  class="mx-6 my-4"
+                >
+                  <v-row
+                    class="fill-height"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-card
+                      class="mx-auto"
+                      max-width="344"
+                    >
+                      <v-img
+                        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                        height="200px"
+                      />
+
+                      <v-card-title>
+                        Top western road trips
+                      </v-card-title>
+
+                      <v-card-subtitle>
+                        1,000 miles of wonder
+                      </v-card-subtitle>
+
+                      <v-card-actions>
+                        <v-btn
+                          color="orange lighten-2"
+                          text
+                        >
+                          Explore
+                        </v-btn>
+
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                          icon
+                          @click="show = !show"
+                        >
+                          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                        </v-btn>
+                      </v-card-actions>
+
+                      <v-expand-transition>
+                        <div v-show="show">
+                          <v-divider></v-divider>
+
+                          <v-card-text>
+                            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+                          </v-card-text>
+                        </div>
+                      </v-expand-transition>
+                    </v-card>
+                  </v-row>
+                </v-card>
+              </v-slide-item>
+            </v-slide-group>
+            <v-carousel
+              v-else
+              :show-arrows="false"
+              hide-delimiters
+              style="transform: translateY(60px)"
+            >
+              <v-carousel-item
+                v-for="n in 5"
+                :key="n"
+              >
+                <v-card
+                  class="mx-auto"
+                  width="310"
+                >
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                    height="200px"
+                  />
+
+                  <v-card-title>
+                    Top western road trips
+                  </v-card-title>
+
+                  <v-card-subtitle>
+                    1,000 miles of wonder
+                  </v-card-subtitle>
+
+                  <v-card-actions>
+                    <v-btn
+                      color="orange lighten-2"
+                      text
+                    >
+                      Explore
+                    </v-btn>
+
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      icon
+                      @click="show = !show"
+                    >
+                      <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+
+                  <v-expand-transition>
+                    <div v-show="show">
+                      <v-divider></v-divider>
+
+                      <v-card-text>
+                        I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+                      </v-card-text>
+                    </div>
+                  </v-expand-transition>
+                </v-card>
+              </v-carousel-item>
+            </v-carousel>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
     <RegisterUSer 
       :isOpen="dialogRegisterAllDataUser"
@@ -181,7 +331,8 @@
   })
 
   export default class HomeView extends mixins() {
-
+    loading = false
+    show = false
     dialogRegisterAllDataUser = false
     dataCompanyFiltered = []
     dataClientFiltered = []
