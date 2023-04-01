@@ -60,20 +60,27 @@
           >
             <v-expansion-panels
               focusable
+              class="fix-painel-container"
             >
               <v-expansion-panel
-                v-for="({title, response}, index) in questions"
+                v-for="({title, response}, index) in require('@/data/faqs/about/questions.json')"
                 :key="`question-${index}`"
               >
-                <v-expansion-panel-header>
-                  <strong>
-                    {{ title }}
-                  </strong>
+                <v-expansion-panel-header
+                  color="#ec973c"
+                >
+                  <span
+                    class="text-uppercase font-weight-bold"
+                    v-text="title"
+                  />
                 </v-expansion-panel-header>
                 <v-expansion-panel-content
                   class=" py-2"
                 >
-                  {{ response }}
+                  <span
+                    class="font-weight-regular"
+                    v-text="response"
+                  />
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -87,31 +94,9 @@
 <script>
   import { mixins } from "vue-class-component"
   import { Component } from "vue-property-decorator"
+  import "@/assets/styles/views/publicViews/about.styl"
 
   @Component({})
 
-  export default class About extends mixins() {
-    questions = [
-      {
-        title: "O que necessito para casdastrar meus produtos no site?",
-        response: "Você precisar cadastra-se em nosso site, após isso, seja feliz divulgando-os"
-      },
-      {
-        title: "Quero acessar apenas como cliente, preciso me cadastrar?",
-        response: "Não, Apenas os empreendedores precisam."
-      },
-      {
-        title: "Quanto custa a divulgação?",
-        response: "Nada, é gratuito!!"
-      },
-      {
-        title: "Quando houver erros no sistemas, o que eu faço?",
-        response: "em nossa página existe a parte de contato para pessoas não cadastrado, assim como a página de reclamações, apenas preencha o formulario e tente ser bem especifico para nossa equipe possa resolver o problema mais rápido possivel."
-      },
-            {
-        title: "Como irá ser feitas as vendas dos produtos?",
-        response: "Será feita diretamente via wattsapp apenas clicando no 'Eu Quero' dos cards onde irá ser direcionado para que você possa fazer sua venda."
-      },
-    ]
-  }
+  export default class About extends mixins() {}
 </script>
