@@ -23,7 +23,7 @@
                 class="mt-5"
               >
                 <h2
-                  v-if="dataClientFiltered.primeiroNome"
+                  v-if="dataClientFiltered !== null && dataClientFiltered.primeiroNome"
                   class="white--text text-uppercase"
                   v-text="`Olá, ${dataClientFiltered.primeiroNome}`"
                 />
@@ -334,64 +334,65 @@
     loading = false
     show = false
     dialogRegisterAllDataUser = false
-    dataCompanyFiltered = []
-    dataClientFiltered = []
+    dataCompanyFiltered = null
+    dataClientFiltered = null
 
-    created() {
-      const validateDataUser = async () => {
-        const client = await list("client")
-        const company = await list("company")
-       
-        const clientFiltered = client.find(item =>  {
-          return item.user_id === this.$store.getters.getUser.id
-        });
-
-        const companyFiltered = company.find(item =>  {
-          return item.user_id === this.$store.getters.getUser.id
-        });
-        
-        this.dataClientFiltered = clientFiltered
-        this. dataCompanyFiltered = companyFiltered
-        
-        /*
-          Essa logica eu fiz para retorna o primeiro indice da tabela que tivesse
-          o mesmo user_id do usuario que está logado caso já estiver 
-          com os dados cadastrado no BD, por eu achar que estava muito verbezo,
-          eu procurei outro metodo e fiz com find() .
-        */
-
-        // let clientFiltered;
-        // let companyFiltered;
-
-        // if(client !== null && company !== null) {
-        //   for (let client = 0; client < client.length; client++) {
-        //     for (let company = 0; company < client.length; company++) {
-        //       clientFiltered = client[client].user_id
-        //       companyFiltered = company[company].user_id
-        //       console.log(client[client].user_id)
-        //       console.log(company[company].user_id)
-        //     }
-        //   }
-        // }
-
-        if([
-          this.$store.getters.id,
-          !clientFiltered === this.$store.getters.id, 
-          !companyFiltered === this.$store.getters.id
-        ].every(o => !!o)) {
-          console.log("necessita cadastrar seus dados.");
-          this.dialogRegisterAllDataUser = true
-          return; 
-        }
-
-        console.log(`Já existe dados do email: ${this.$store.getters.getUser.email} cadastrado em nosso banco de dados.`)
-        this.dialogRegisterAllDataUser = false
-        return; 
-      } 
-
-      validateDataUser()
+    mounted () {
+      if( "user" in this.$store.state) {
+        this.validateDataUser()
+      }
     }
 
+    async validateDataUser() {
+      const client = await list("client")
+      const company = await list("company")
+      
+      const clientFiltered = client.find(item =>  {
+        return item.user_id === this.$store.getters.getUser.id
+      });
+
+      const companyFiltered = company.find(item =>  {
+        return item.user_id === this.$store.getters.getUser.id
+      });
+
+      if (clientFiltered && companyFiltered) {
+        this.dataCompanyFiltered = companyFiltered
+        this.dataClientFiltered = clientFiltered
+      }
+      
+      /*
+        Essa logica eu fiz para retorna o primeiro indice da tabela que tivesse
+        o mesmo user_id do usuario que está logado caso já estiver 
+        com os dados cadastrado no BD, por eu achar que estava muito verbezo,
+        eu procurei outro metodo e fiz com find() .
+      */
+
+      // let clientFiltered = null;
+      // let companyFiltered = null;
+
+      // if(client !== null && company !== null) {
+      //   for (let client = 0; client < client.length; client++) {
+      //     for (let company = 0; company < client.length; company++) {
+      //       clientFiltered = client[client].user_id
+      //       companyFiltered = company[company].user_id
+      //       console.log(client[client].user_id)
+      //       console.log(company[company].user_id)
+      //     }
+      //   }
+      // }
+
+      if(!this.dataClientFiltered && !this.dataCompanyFiltered ) {
+        console.log("necessita cadastrar seus dados.");
+
+        this.dialogRegisterAllDataUser = true
+        return; 
+      }
+
+      console.log(`Já existe dados do email: ${this.$store.getters.getUser.email} cadastrado em nosso banco de dados.`)
+      this.dialogRegisterAllDataUser = false
+      return; 
+    } 
+    
     handleDialogRegisterAllDataUser () {
       this.dialogRegisterAllDataUser = false
     }

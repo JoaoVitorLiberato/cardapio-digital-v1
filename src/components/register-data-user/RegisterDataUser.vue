@@ -549,9 +549,11 @@
   import "@/assets/styles/components/dialogRegisterAllDatauser.styl"
   import { validarCPF } from "@/helpers/validateCpf"
   import useBD from "@/middlewares/useBD"
+  import store from "@/plugins/store"
 
-  const { post, list } = useBD()
+  const { list } = useBD()
 
+  
   @Component({})
 
   export default class RegisterDataUSer extends mixins() {
@@ -645,8 +647,8 @@
         Vue.set(PAYLOAD_DATA, "termoDeUso", this.formClient.termoDeUso)
       }
 
-      try {
-        await post( "client", this.formClient)
+      try { 
+        store.dispatch("setDataClient", PAYLOAD_DATA)
         setTimeout(() => {
           this.loading = false
           this.step = 2
@@ -691,7 +693,7 @@
       }
 
       try {
-        await post( "company", PAYLOAD_DATA)
+        store.dispatch("setDataCompany", PAYLOAD_DATA)
         setTimeout(() => {
           this.loading = false
           this.step = 3

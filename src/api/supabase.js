@@ -1,6 +1,7 @@
+import { createClient } from "@supabase/supabase-js";
 import store from "@/plugins/store";
 import router from "@/router";
-import { createClient } from "@supabase/supabase-js";
+
 
 const supabase = createClient(
   "https://vjdugaqbsraejmchhsig.supabase.co",

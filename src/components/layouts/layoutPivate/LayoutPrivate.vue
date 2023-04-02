@@ -41,7 +41,14 @@
               <p 
                 class="text-caption mt-1 px-1"
               >
-                <!-- {{  store.email }} --> Email
+                <span 
+                  v-if="user !== null && user.email"
+                  v-text="user.email"
+                />
+                <span 
+                  v-else
+                  v-text="'email'"
+                />
               </p>
 
               <v-divider 
@@ -52,8 +59,9 @@
                 depressed 
                 rounded 
                 text
+                class="font-wight-bold"
               > 
-                Edit Account 
+                Editar Dados
               </v-btn>
 
               <v-divider
@@ -61,8 +69,7 @@
               />
 
               <v-btn
-                class="black--text font-wight-bold"
-                style="text-decoration: none"
+                class="font-wight-bold"
                 text
                 depressed
                 plain
@@ -158,7 +165,7 @@
       },
     ];
 
-    store = this.$store.getters.getUser
+    user = this.$store.getters.getUser
 
     async handleLogout() {
       const { logout } = userAuthUser();

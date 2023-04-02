@@ -113,6 +113,7 @@
                     </v-col>  
                     <v-col
                       :cols="$vuetify.breakpoint.smAndDown ? '12' : '6'"
+                      class="my-2"
                     >
                       <v-btn 
                         width="100%"
@@ -163,6 +164,7 @@
             color="primary"
             x-large
             class="my-5"
+            disabled
             @click.prevent="handleContaGoogle"
           >
             <span
