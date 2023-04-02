@@ -16,7 +16,7 @@
               cycle
               :height="$vuetify.breakpoint.mdAndUp? 600 : 300"
               hide-delimiter-background
-              show-arrows-on-hover
+              :show-arrows="false"
               interval="5000"
             >
               <v-carousel-item v-for="(slide, i) in 
@@ -113,12 +113,13 @@
                     </v-col>  
                     <v-col
                       :cols="$vuetify.breakpoint.smAndDown ? '12' : '6'"
-                      class="my-2"
+                      class="mb-4"
                     >
                       <v-btn 
                         width="100%"
                         color="secondary"
                         x-large
+                        depressed
                         @click="() => dialog = true"
                       >
                         <span

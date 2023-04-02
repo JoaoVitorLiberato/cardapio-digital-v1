@@ -72,7 +72,6 @@
                 class="font-wight-bold"
                 text
                 depressed
-                plain
                 @click="handleLogout"
               >
                 Sair

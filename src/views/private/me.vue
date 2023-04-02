@@ -175,7 +175,6 @@
           >
             <v-slide-group
               v-if="$vuetify.breakpoint.mdAndUp"
-              v-model="model"
               class="pa-4"
               active-class="success"
               show-arrows
@@ -197,7 +196,7 @@
                       max-width="344"
                     >
                       <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                        src="https://th.bing.com/th/id/R.a4fb5ae2ee2f7d628446fcb7a4c5588e?rik=LwIw84avT5f5Bw&pid=ImgRaw&r=0"
                         height="200px"
                       />
 
@@ -209,33 +208,31 @@
                         1,000 miles of wonder
                       </v-card-subtitle>
 
-                      <v-card-actions>
+                      <v-card-actions
+                        class="d-flex justify-space-between"
+                      >
                         <v-btn
-                          color="orange lighten-2"
+                          color="#EB310CBF"
                           text
                         >
-                          Explore
+                          <span 
+                            v-text="'Ver'"
+                          />
+                          <v-icon
+                            size="20"
+                          >
+                            mdi-plus
+                          </v-icon>
                         </v-btn>
-
-                        <v-spacer></v-spacer>
 
                         <v-btn
-                          icon
-                          @click="show = !show"
+                          depressed
+                          color="#EB310CBF"
+                          text
                         >
-                          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                          Eu quero
                         </v-btn>
                       </v-card-actions>
-
-                      <v-expand-transition>
-                        <div v-show="show">
-                          <v-divider></v-divider>
-
-                          <v-card-text>
-                            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-                          </v-card-text>
-                        </div>
-                      </v-expand-transition>
                     </v-card>
                   </v-row>
                 </v-card>
@@ -253,7 +250,7 @@
               >
                 <v-card
                   class="mx-auto"
-                  width="310"
+                  width="350"
                 >
                   <v-img
                     src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -268,33 +265,31 @@
                     1,000 miles of wonder
                   </v-card-subtitle>
 
-                  <v-card-actions>
+                  <v-card-actions
+                    class="d-flex justify-space-between"
+                  >
                     <v-btn
-                      color="orange lighten-2"
+                      color="#EB310CBF"
                       text
                     >
-                      Explore
+                      <span 
+                        v-text="'Ver'"
+                      />
+                      <v-icon
+                        size="20"
+                      >
+                        mdi-plus
+                      </v-icon>
                     </v-btn>
-
-                    <v-spacer></v-spacer>
 
                     <v-btn
-                      icon
-                      @click="show = !show"
+                      depressed
+                      color="#EB310CBF"
+                      text
                     >
-                      <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                      Eu quero
                     </v-btn>
                   </v-card-actions>
-
-                  <v-expand-transition>
-                    <div v-show="show">
-                      <v-divider></v-divider>
-
-                      <v-card-text>
-                        I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-                      </v-card-text>
-                    </div>
-                  </v-expand-transition>
                 </v-card>
               </v-carousel-item>
             </v-carousel>
