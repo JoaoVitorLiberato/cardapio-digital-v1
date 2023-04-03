@@ -184,59 +184,7 @@
                 v-for="n in 5"
                 :key="n"
               >
-                <v-card
-                  class="mx-6 my-4"
-                >
-                  <v-row
-                    class="fill-height"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-card
-                      class="mx-auto"
-                      max-width="344"
-                    >
-                      <v-img
-                        src="https://th.bing.com/th/id/R.a4fb5ae2ee2f7d628446fcb7a4c5588e?rik=LwIw84avT5f5Bw&pid=ImgRaw&r=0"
-                        height="200px"
-                      />
-
-                      <v-card-title>
-                        Top western road trips
-                      </v-card-title>
-
-                      <v-card-subtitle>
-                        1,000 miles of wonder
-                      </v-card-subtitle>
-
-                      <v-card-actions
-                        class="d-flex justify-space-between"
-                      >
-                        <v-btn
-                          color="#EB310CBF"
-                          text
-                        >
-                          <span 
-                            v-text="'Ver'"
-                          />
-                          <v-icon
-                            size="20"
-                          >
-                            mdi-plus
-                          </v-icon>
-                        </v-btn>
-
-                        <v-btn
-                          depressed
-                          color="#EB310CBF"
-                          text
-                        >
-                          Eu quero
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-row>
-                </v-card>
+                <CardProduct />
               </v-slide-item>
             </v-slide-group>
             <v-carousel
@@ -249,49 +197,7 @@
                 v-for="n in 5"
                 :key="n"
               >
-                <v-card
-                  class="mx-auto"
-                  width="350"
-                >
-                  <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                    height="200px"
-                  />
-
-                  <v-card-title>
-                    Top western road trips
-                  </v-card-title>
-
-                  <v-card-subtitle>
-                    1,000 miles of wonder
-                  </v-card-subtitle>
-
-                  <v-card-actions
-                    class="d-flex justify-space-between"
-                  >
-                    <v-btn
-                      color="#EB310CBF"
-                      text
-                    >
-                      <span 
-                        v-text="'Ver'"
-                      />
-                      <v-icon
-                        size="20"
-                      >
-                        mdi-plus
-                      </v-icon>
-                    </v-btn>
-
-                    <v-btn
-                      depressed
-                      color="#EB310CBF"
-                      text
-                    >
-                      Eu quero
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
+                <CardProduct />
               </v-carousel-item>
             </v-carousel>
           </v-col>
@@ -332,6 +238,13 @@
           /* webpackChunkName: "data-register-component" */
           /* webpackMode: "eager" */
           "@/components/poducts/ProductsRegister.vue"
+        )
+      }),
+      CardProduct: () => ({
+        component: import(
+          /* webpackChunkName: "data-register-component" */
+          /* webpackMode: "eager" */
+          "@/components/card-products/CardProducts.vue"
         )
       })
     }
