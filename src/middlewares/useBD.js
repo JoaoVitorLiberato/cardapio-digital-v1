@@ -36,13 +36,13 @@ export default function useBD() {
     return data
   }
 
-  const postTableWithPlusID = async (table, form, client_id) => {
+  const postTableWithCompanyID = async (table, form) => {
     const { data, error } = await supabase
       .from(table)
       .insert([{
         ...form,
         user_id: store.getters.getUser.id,
-        client_id: client_id
+        company_id: store.getters.getCompany.id
       }])
 
     if (error) throw error
@@ -82,6 +82,6 @@ export default function useBD() {
     post,
     update,
     remove,
-    postTableWithPlusID
+    postTableWithCompanyID
   }
 }

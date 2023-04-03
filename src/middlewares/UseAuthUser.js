@@ -3,14 +3,14 @@ import supabase from "@/api/supabase";
 
 export default function userAuthUser() {
   const login = async ({ email, password }) => {
-    const response = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (response.error) throw response.error;
+    if (error) throw error;
     
-    return response
+    return data
   };
 
   const loginWithSocialProvider = async ({ providerName }) => {

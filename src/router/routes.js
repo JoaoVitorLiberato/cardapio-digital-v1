@@ -7,12 +7,12 @@ const routes = [
       {
         path: "",
         name: "products-default",
-        component: () => import(/* webpackChunkName: "products-view-public" */ '../views/public/ProdutosView.vue'),
+        component: () => import(/* webpackChunkName: "products-view-public" */ '../views/public/ProductsPublic.vue'),
       },
       {
         path: "products",
         name: "products",
-        component: () => import(/* webpackChunkName: "products-view-public" */ '@/views/public/ProdutosView.vue'),
+        component: () => import(/* webpackChunkName: "products-view-public" */ '@/views/public/ProductsPublic.vue'),
       },
       {
         path: "login",
@@ -75,7 +75,7 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => import(/* webpackChunkName: "not-found-view" */ '@/views/NotFound.vue')
+    component: () => import(/* webpackChunkName: "defaul-not-found-view-public" */ '@/views/public/ProductsPublic.vue')
   },
 ]
 

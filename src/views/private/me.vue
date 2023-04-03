@@ -23,9 +23,9 @@
                 class="mt-5"
               >
                 <h2
-                  v-if="dataClientFiltered !== null && dataClientFiltered.primeiroNome"
+                  v-if="dataClient !== null && dataClient.primeiroNome"
                   class="white--text text-uppercase"
-                  v-text="`Olá, ${dataClientFiltered.primeiroNome}`"
+                  v-text="`Olá, ${dataClient.primeiroNome}`"
                 />
                 <h2
                   v-else
@@ -39,7 +39,7 @@
                   class="fix-card-list-data-company text--white text-uppercase"
                 >
                   <v-row
-                    v-if="dataCompanyFiltered"
+                    v-if="dataCompany"
                     justify="center"
                     class="text-center"
                   >
@@ -49,7 +49,7 @@
                     >
                       <span
                         class="font-weight-bold white--text"
-                        v-text="dataCompanyFiltered.nome"
+                        v-text="dataCompany.nome"
                       />
                     </v-col>
                     <v-col
@@ -66,7 +66,7 @@
                     >
                       <span
                         class="white--text"
-                        v-text="dataCompanyFiltered.cnpj"
+                        v-text="dataCompany.cnpj"
                       />
                     </v-col>
                     <v-col
@@ -83,7 +83,7 @@
                     >
                       <span
                         class="white--text"
-                        v-text="`Autorizado para deixar dados da empresa público: ${dataCompanyFiltered.autorizacaoPublicData === true ? 'Sim' : 'Não'}`"
+                        v-text="`Autorizado para deixar dados da empresa público: ${dataCompany.autorizacaoPublicData === true ? 'Sim' : 'Não'}`"
                       />
                     </v-col>
                   </v-row>
@@ -164,6 +164,7 @@
               dark
               x-large
               color="#EB310CBF"
+              @click="() => dialogProduct = true"
             >
               <span 
                 v-text="'Adcionar'"
@@ -301,6 +302,10 @@
       :isOpen="dialogRegisterAllDataUser"
       @closeDialogRegisterAlldata="handleDialogRegisterAllDataUser"
     />
+    <RegisterProduct 
+      :openDialogProduct="dialogProduct"
+      @closeDialogProduct="() => dialogProduct = false"
+    />
   </v-container>
 </template>
 
@@ -321,16 +326,23 @@
           /* webpackMode: "eager" */
           "@/components/register-data-user/RegisterDataUser.vue"
         )
+      }),
+      RegisterProduct: () => ({
+        component: import(
+          /* webpackChunkName: "data-register-component" */
+          /* webpackMode: "eager" */
+          "@/components/poducts/ProductsRegister.vue"
+        )
       })
     }
   })
 
   export default class HomeView extends mixins() {
     loading = false
-    show = false
     dialogRegisterAllDataUser = false
-    dataCompanyFiltered = null
-    dataClientFiltered = null
+    dataClient = this.$store.getters.getClient
+    dataCompany = this.$store.getters.getCompany
+    dialogProduct = false
 
     mounted () {
       if( "user" in this.$store.state) {
@@ -344,41 +356,19 @@
       
       const clientFiltered = client.find(item =>  {
         return item.user_id === this.$store.getters.getUser.id
-      });
+      })
 
       const companyFiltered = company.find(item =>  {
         return item.user_id === this.$store.getters.getUser.id
-      });
+      })
 
       if (clientFiltered && companyFiltered) {
-        this.dataCompanyFiltered = companyFiltered
-        this.dataClientFiltered = clientFiltered
+        this.$store.dispatch("setDataCompany", companyFiltered)
+        this.$store.dispatch("setDataClient", clientFiltered)
       }
       
-      /*
-        Essa logica eu fiz para retorna o primeiro indice da tabela que tivesse
-        o mesmo user_id do usuario que está logado caso já estiver 
-        com os dados cadastrado no BD, por eu achar que estava muito verbezo,
-        eu procurei outro metodo e fiz com find() .
-      */
-
-      // let clientFiltered = null;
-      // let companyFiltered = null;
-
-      // if(client !== null && company !== null) {
-      //   for (let client = 0; client < client.length; client++) {
-      //     for (let company = 0; company < client.length; company++) {
-      //       clientFiltered = client[client].user_id
-      //       companyFiltered = company[company].user_id
-      //       console.log(client[client].user_id)
-      //       console.log(company[company].user_id)
-      //     }
-      //   }
-      // }
-
-      if(!this.dataClientFiltered && !this.dataCompanyFiltered ) {
+      if(!this.$store.getters.getClient && !this.$store.getters.getCompany ) {
         console.log("necessita cadastrar seus dados.");
-
         this.dialogRegisterAllDataUser = true
         return; 
       }
