@@ -206,7 +206,7 @@
     </v-row>
     <RegisterUSer 
       :isOpen="dialogRegisterAllDataUser"
-      @closeDialogRegisterAlldata="handleDialogRegisterAllDataUser"
+      @closeDialogRegisterAlldata="() => dialogRegisterAllDataUser = false"
     />
     <RegisterProduct 
       :openDialogProduct="dialogProduct"
@@ -256,44 +256,59 @@
     dataClient = this.$store.getters.getClient
     dataCompany = this.$store.getters.getCompany
     dialogProduct = false
+    products = []
 
 
-    async validateDataUser() {
-      const client = await list("client")
-      const company = await list("company")
-      
-      const clientFiltered = client.find(item =>  {
-        return item.user_id === this.$store.getters.getUser.id
-      })
-
-      const companyFiltered = company.find(item =>  {
-        return item.user_id === this.$store.getters.getUser.id
-      })
-
-      if (clientFiltered && companyFiltered) {
-        this.$store.dispatch("setDataCompany", companyFiltered)
-        this.$store.dispatch("setDataClient", clientFiltered)
-      }
-      
-      if(!this.$store.getters.getClient && !this.$store.getters.getCompany ) {
-        console.log("necessita cadastrar seus dados.");
-        this.dialogRegisterAllDataUser = true
+    
+    created() {
+      const validateDataUser = async () => {
+        const client = await list("client")
+        const company = await list("company")
+        
+        const clientFiltered = client.find(item =>  {
+          return item.user_id === this.$store.getters.getUser.id
+        })
+  
+        const companyFiltered = company.find(item =>  {
+          return item.user_id === this.$store.getters.getUser.id
+        })
+  
+        if (clientFiltered && companyFiltered) {
+          this.$store.dispatch("setDataCompany", companyFiltered)
+          this.$store.dispatch("setDataClient", clientFiltered)
+        }
+        
+        if(!this.$store.getters.getClient && !this.$store.getters.getCompany ) {
+          console.log("necessita cadastrar seus dados.");
+          this.dialogRegisterAllDataUser = true
+          return; 
+        }
+  
+        console.log(`Já existe dados do email: ${this.$store.getters.getUser.email} cadastrado em nosso banco de dados.`)
+        this.dialogRegisterAllDataUser = false
         return; 
-      }
+      } 
 
-      console.log(`Já existe dados do email: ${this.$store.getters.getUser.email} cadastrado em nosso banco de dados.`)
-      this.dialogRegisterAllDataUser = false
-      return; 
-    } 
+      if( "user" in this.$store.state) {
+        validateDataUser()
+      }
+    }
 
     mounted () {
-      if( "user" in this.$store.state) {
-        this.validateDataUser()
+      const Products = async () => {
+        const listProducts = await list("product")
+        
+        const productFilteredByIdLoggedInUser = listProducts.filter(
+          item => item.user_id === this.$store.getters.getUser.id
+        )
+
+        this.products = [
+          ...productFilteredByIdLoggedInUser
+        ]
       }
+
+      Products()
     }
-    
-    handleDialogRegisterAllDataUser () {
-      this.dialogRegisterAllDataUser = false
-    }
+
   }
 </script>

@@ -551,7 +551,7 @@
   import useBD from "@/middlewares/useBD"
   import store from "@/plugins/store"
 
-  const { list } = useBD()
+  const { list, post } = useBD()
 
   
   @Component({})
@@ -649,11 +649,15 @@
 
       try { 
         store.dispatch("setDataClient", PAYLOAD_DATA)
+
+        if(store.getters.getClient) {
+          await post("client", store.getters.getClient)
+        }
+
         setTimeout(() => {
           this.loading = false
           this.step = 2
         }, 1400)
-        
       } catch (error) {
         this.loading = false
         console.error(error)
@@ -694,11 +698,15 @@
 
       try {
         store.dispatch("setDataCompany", PAYLOAD_DATA)
+
+        if(store.getters.getCompany) {
+          await post("company", store.getters.getCompany)
+        }
+
         setTimeout(() => {
           this.loading = false
           this.step = 3
-        }, 1400)
-        
+        }, 1400) 
       } catch (error) {
         this.loading = false
         console.error(error)
