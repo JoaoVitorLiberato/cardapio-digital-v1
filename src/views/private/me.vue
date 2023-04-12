@@ -257,11 +257,6 @@
     dataCompany = this.$store.getters.getCompany
     dialogProduct = false
 
-    mounted () {
-      if( "user" in this.$store.state) {
-        this.validateDataUser()
-      }
-    }
 
     async validateDataUser() {
       const client = await list("client")
@@ -290,6 +285,12 @@
       this.dialogRegisterAllDataUser = false
       return; 
     } 
+
+    mounted () {
+      if( "user" in this.$store.state) {
+        this.validateDataUser()
+      }
+    }
     
     handleDialogRegisterAllDataUser () {
       this.dialogRegisterAllDataUser = false

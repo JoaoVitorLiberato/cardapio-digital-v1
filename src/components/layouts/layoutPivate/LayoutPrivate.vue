@@ -170,8 +170,12 @@
       const { logout } = userAuthUser();
 
       try {
+        this.$store.dispatch("setDataCompany", null)
+        this.$store.dispatch("setDataClient", null)
         await logout();
-        this.$router.replace("/login");
+        setTimeout(() => {
+          this.$router.replace("/login")
+        }, 1000)
       } catch (error) {
         console.log(error);
       }

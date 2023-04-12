@@ -32,7 +32,7 @@
                   cols="12"
                 >
                   <v-text-field
-                    v-model="formProduct.nome"
+                    v-model="formProduct.nomeProduto"
                     label="Nome Completo"
                     :rules="[rules.required]"
                     placeholder="Informe seu nome completo"
@@ -94,7 +94,7 @@
 
 <script>
   import { mixins } from "vue-class-component"
-  import { Component, Emit, Prop } from "vue-property-decorator"
+  import { Component, Emit, Prop, Vue } from "vue-property-decorator"
   import useBD from "@/middlewares/useBD"
 
   const { postTableWithCompanyID } = useBD()
@@ -105,10 +105,14 @@
     @Emit('closeDialogProduct')
     @Prop({ default: false}) openDialogProduct
 
+
     formProduct = {
-      nome: "",
+      nomeProduto: "",
       descricao: "",
+      nomeEmpresa: "",
+      telCliente: ""
     }
+    
     loading = false
 
     rules = {
@@ -117,10 +121,20 @@
 
     async handleAddProduct() {
       this.loading = true
+
+      const PAYLOAD = require("@/data/product/product.json")
+
+      if(this.formProduct) {
+        Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
+        Vue.set(PAYLOAD, "descricao", this.formProduct.descricao)
+        Vue.set(PAYLOAD, "nomeEmpresa", this.$store.getters.getCompany.nome)
+        Vue.set(PAYLOAD, "telCliente", this.$store.getters.getClient.wattsapp)
+      }
+      
       try {
         await postTableWithCompanyID(
           "product", 
-          this.formProduct
+          PAYLOAD
         )
 
         setTimeout(() => {
