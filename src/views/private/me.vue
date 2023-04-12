@@ -175,16 +175,20 @@
             cols="12"
           >
             <v-slide-group
-              v-if="$vuetify.breakpoint.mdAndUp"
+              v-if="$vuetify.breakpoint.smAndUp"
               class="pa-4"
               active-class="success"
               show-arrows
             >
               <v-slide-item
-                v-for="n in 5"
-                :key="n"
+                v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
+                :key="`slide-group-${id}`"
               >
-                <CardProduct />
+                <CardProduct 
+                  :titleProduct="nomeProduto"
+                  :company="nomeEmpresa"
+                  :redirectWattsapp="telCliente"
+                />
               </v-slide-item>
             </v-slide-group>
             <v-carousel
@@ -194,12 +198,21 @@
               style="transform: translateY(60px)"
             >
               <v-carousel-item
-                v-for="n in 5"
-                :key="n"
+                v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
+                :key="`slide-group-${id}`"
               >
-                <CardProduct />
+                <CardProduct 
+                  :titleProduct="nomeProduto"
+                  :company="nomeEmpresa"
+                  :redirectWattsapp="telCliente"
+                />
               </v-carousel-item>
             </v-carousel>
+          </v-col>
+          <v-col
+            cols="12"
+          >
+            <dialogSeeMoreProduct />
           </v-col>
         </v-row>
       </v-col>
@@ -242,11 +255,18 @@
       }),
       CardProduct: () => ({
         component: import(
-          /* webpackChunkName: "data-register-component" */
+          /* webpackChunkName: "product-card-component" */
           /* webpackMode: "eager" */
           "@/components/card-products/CardProducts.vue"
         )
-      })
+      }),
+      dialogSeeMoreProduct: () => ({
+        component: import(
+          /* webpackChunkName: "seeMoreProduct-dialog-component" */
+          /* webpackMode: "eager" */
+          "@/components/dialog-see-more-product/dialogSeeMoreProduct.vue"
+        )
+      }),
     }
   })
 
@@ -305,6 +325,8 @@
         this.products = [
           ...productFilteredByIdLoggedInUser
         ]
+
+        console.log(this.products);
       }
 
       Products()

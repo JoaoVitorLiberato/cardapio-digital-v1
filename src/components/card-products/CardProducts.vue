@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto"
+    :class="$vuetify.breakpoint.xsOnly ? 'mx-auto' : 'mx-3 my-2'"
     max-width="320"
   >
     <v-img
@@ -9,11 +9,11 @@
     />
 
     <v-card-title>
-      Top western road trips
+      {{ titleProduct }}
     </v-card-title>
 
     <v-card-subtitle>
-      1,000 miles of wonder
+      {{ company }}
     </v-card-subtitle>
 
     <v-card-actions
@@ -22,8 +22,10 @@
       <v-btn
         color="#EB310CBF"
         text
+        @click="$emit('dialogDataProduct')"
       >
-        <span 
+        <span
+          class="font-weight-bold"
           v-text="'Ver'"
         />
         <v-icon
@@ -33,24 +35,32 @@
         </v-icon>
       </v-btn>
 
-      <v-btn
-        depressed
-        color="#EB310CBF"
-        text
+      <a
+        class="redirect-wattsapp mr-2 "
+        :href="`https://wa.me/${redirectWattsapp}`"
+        target="_blank"
       >
-        Eu quero
-      </v-btn>
+        <span
+          style="font-size:14px;color:#EB310CBF"
+          class="text-uppercase font-weight-bold"
+          v-text="'Eu quero'"
+        />
+      </a>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-  import { Component } from "vue-property-decorator"
+  import { Component, Prop, Emit } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
+  import "@/assets/styles/components/cardProduct.styl"
 
   @Component({})
 
   export default class CardProduct extends mixins() {
-
+    @Emit('dialogDataProduct')
+    @Prop({ default: '' }) titleProduct
+    @Prop({ default: '' }) company
+    @Prop({ default: '' }) redirectWattsapp
   }
 </script>

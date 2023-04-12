@@ -7,7 +7,11 @@
 </template>
 
 <script>
-  export default {
-    name: 'App',
-  };
+  import "@/assets/styles/global.styl"
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
+  
+  @Component({})
+
+  export default class App extends mixins() {}
 </script>

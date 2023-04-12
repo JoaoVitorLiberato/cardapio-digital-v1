@@ -38,27 +38,11 @@
             <div 
               class="mx-auto text-center"
             >
-              <p 
-                class="text-caption mt-1 px-1"
-              >
-                <span 
-                  v-if="user !== null && user.email"
-                  v-text="user.email"
-                />
-                <span 
-                  v-else
-                  v-text="'email'"
-                />
-              </p>
-
-              <v-divider 
-                class="my-3" 
-              />
-
               <v-btn 
                 depressed 
                 rounded 
                 text
+                disabled
                 class="font-wight-bold"
               > 
                 Editar Dados
@@ -153,8 +137,8 @@
     }
   })
   export default class LayoutPrivate extends mixins() {
-    drawer = null;
-    iconAccount = mdiAccount;
+    drawer = null
+    iconAccount = mdiAccount
     items = [
       { title: "home", icon: "mdi-home", to: "/auth/me" },
       {
@@ -162,9 +146,7 @@
         icon: "mdi-message-reply-text",
         to: "/auth/complaints",
       },
-    ];
-
-    user = this.$store.getters.getUser
+    ]
 
     async handleLogout() {
       const { logout } = userAuthUser();
@@ -172,12 +154,12 @@
       try {
         this.$store.dispatch("setDataCompany", null)
         this.$store.dispatch("setDataClient", null)
-        await logout();
+        await logout()
         setTimeout(() => {
           this.$router.replace("/login")
         }, 1000)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
