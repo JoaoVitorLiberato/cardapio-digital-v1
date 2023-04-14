@@ -20,43 +20,55 @@
             >
               <v-row>
                  <v-col
-                  cols="12"
+                  cols="12 pa-0"
                 >
                   <p
-                    class="mt-2"
+                    class="mt-10"
                   >
                     É hora de cadastrar o produto, Vamos lá?!
                   </p>
                 </v-col>
                 <v-col
-                  cols="12"
+                  cols="12 pa-0"
                 >
                   <v-text-field
                     v-model="formProduct.nomeProduto"
-                    label="Nome Completo"
+                    label="Nome do Produto"
                     :rules="[rules.required]"
-                    placeholder="Informe seu nome completo"
                     outlined
                     required
                   />
                 </v-col>
 
                 <v-col
-                  cols="12"
+                  cols="12 pa-0"
                 > 
                   <v-textarea
-                    v-model="formProduct.descricao"
+                    v-model="formProduct.receita"
                     label="Descrição do Produto"
-                    placeholder="Por Favor, Descreva o produto com detalhes."
+                    placeholder="Por Favor, Descreva a receita com detalhes."
                     :rules="[rules.required]"
                     auto-grow
                     outlined
                   />
                 </v-col>
                 <v-col
-                  cols="12"
+                  cols="12 pa-0"
+                > 
+                  <v-textarea
+                    v-model="formProduct.modoPreparo"
+                    label="Modo de Preparo"
+                    placeholder="Por Favor, Descreva o modo de preparo com detalhes."
+                    :rules="[rules.required]"
+                    auto-grow
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12 pa-0"
                 > 
                   <v-btn
+                    width="100%"
                     x-large
                     dark
                     depressed
@@ -108,7 +120,8 @@
 
     formProduct = {
       nomeProduto: "",
-      descricao: "",
+      receita: "",
+      modoPreparo: "",
       nomeEmpresa: "",
       telCliente: ""
     }
@@ -126,7 +139,8 @@
 
       if(this.formProduct) {
         Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
-        Vue.set(PAYLOAD, "descricao", this.formProduct.descricao)
+        Vue.set(PAYLOAD, "receita", this.formProduct.receita)
+        Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
         Vue.set(PAYLOAD, "nomeEmpresa", this.$store.getters.getCompany.nome)
         Vue.set(PAYLOAD, "telCliente", this.$store.getters.getClient.wattsapp)
       }

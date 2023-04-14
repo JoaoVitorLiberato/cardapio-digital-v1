@@ -174,44 +174,73 @@
           <v-col
             cols="12"
           >
-            <v-slide-group
-              v-if="$vuetify.breakpoint.smAndUp"
-              class="pa-4"
-              active-class="success"
-              show-arrows
-            >
-              <v-slide-item
-                v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
-                :key="`slide-group-${id}`"
+            <v-row>
+              <v-col
+              v-if="products.length > 0"
+                cols="12"
               >
-                <CardProduct 
-                  :titleProduct="nomeProduto"
-                  :company="nomeEmpresa"
-                  :redirectWattsapp="telCliente"
-                />
-              </v-slide-item>
-            </v-slide-group>
-            <v-carousel
-              v-else
-              :show-arrows="false"
-              hide-delimiters
-              style="transform: translateY(60px)"
-            >
-              <v-carousel-item
-                v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
-                :key="`slide-group-${id}`"
+                <v-slide-group
+                  v-if="$vuetify.breakpoint.smAndUp"
+                  class="pa-4"
+                  active-class="success"
+                  show-arrows
+                >
+                  <v-slide-item
+                    v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
+                    :key="`slide-group-${id}`"
+                  >
+                    <CardProduct 
+                      :titleProduct="nomeProduto"
+                      :company="nomeEmpresa"
+                      :redirectWattsapp="telCliente"
+                      @dialogDataProduct="() => handleSeeMoreProduct(id)"
+                    />
+                  </v-slide-item>
+                </v-slide-group>
+                <v-carousel
+                  v-else
+                  :show-arrows="false"
+                  hide-delimiters
+                  style="transform: translateY(60px)"
+                >
+                  <v-carousel-item
+                    v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
+                    :key="`slide-group-${id}`"
+                  >
+                    <CardProduct 
+                      :titleProduct="nomeProduto"
+                      :company="nomeEmpresa"
+                      :redirectWattsapp="telCliente"
+                      @dialogDataProduct="() => handleSeeMoreProduct(id)"
+                    />
+                  </v-carousel-item>
+                </v-carousel>
+              </v-col>
+              <v-col
+                v-else
+                cols="12"
               >
-                <CardProduct 
-                  :titleProduct="nomeProduto"
-                  :company="nomeEmpresa"
-                  :redirectWattsapp="telCliente"
-                />
-              </v-carousel-item>
-            </v-carousel>
+                <p
+                  class="text-center"
+                >
+                  Você não possui produtos cadastrados.
+                </p>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col
             cols="12"
           >
+            <dialogSeeMoreProduct 
+              v-if="informationsProduct !== null"
+              :dialogSeeMoreProduct="dialogSeeMoreProduct"
+              :titleReceita="informationsProduct.nomeProduto"
+              :company="informationsProduct.nomeEmpresa"
+              :receita="informationsProduct.receita"
+              :modoPreparo="informationsProduct.modoPreparo"
+              :redirectWattsapp="informationsProduct.telCliente"
+              @closeDialogSeeMoreProduct="() => dialogSeeMoreProduct = false"
+            />
             <dialogSeeMoreProduct />
           </v-col>
         </v-row>
@@ -277,6 +306,8 @@
     dataCompany = this.$store.getters.getCompany
     dialogProduct = false
     products = []
+    informationsProduct = null
+    dialogSeeMoreProduct = false
 
 
     
@@ -325,11 +356,16 @@
         this.products = [
           ...productFilteredByIdLoggedInUser
         ]
-
-        console.log(this.products);
       }
 
       Products()
+    }
+
+    async handleSeeMoreProduct(id) {
+      const productFilteredById = this.products.filter(item => item.id === id)
+      this.dialogSeeMoreProduct = true
+      this.informationsProduct = productFilteredById[0]
+      return productFilteredById
     }
 
   }

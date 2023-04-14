@@ -8,11 +8,16 @@
       height="200px"
     />
 
-    <v-card-title>
+    <v-card-title
+      class="text-uppercase"
+    >
       {{ titleProduct }}
     </v-card-title>
 
-    <v-card-subtitle>
+    <v-card-subtitle
+      class="text-uppercase"
+      :style="`font-size:${$vuetify.breakpoint.xsOnly ? '13' : '12'}px`"
+    >
       {{ company }}
     </v-card-subtitle>
 
@@ -53,7 +58,6 @@
 <script>
   import { Component, Prop, Emit } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import "@/assets/styles/components/cardProduct.styl"
 
   @Component({})
 
