@@ -1,4 +1,4 @@
-# gama-2
+# Cardápio Digital
 
 ## Project setup
 ```
