@@ -10,7 +10,24 @@
     <v-col
       cols="12"
     >
-      <v-row>
+      <v-row
+        :style="$vuetify.breakpoint.mdAndUp ? 'display:flex;flex-direction:row-reverse': ''"
+      >
+        <v-col
+          :cols="$vuetify.breakpoint.smAndDown ? '12' : '6' "
+        >
+          <video
+            autoplay
+            loop
+            width="100%"
+          >
+            <source
+              src="/videos/Problem.mp4"
+              type="video/mp4"
+            >
+            <a href="https://storyset.com/people">People illustrations by Storyset</a>
+          </video>
+        </v-col>
         <v-col
           :cols="$vuetify.breakpoint.smAndDown ? '12' : '6'"
           class="mt-5"
@@ -56,7 +73,8 @@
                   <v-btn
                     color="#EB310CBF"
                     x-large
-                    :width="$vuetify.breakpoint.xsOnly ? '100%' : ''"
+                    dark
+                    :width="$vuetify.breakpoint.xsOnly ? '100%' : '250'"
                     :disabled="description === '' || description.length <= 15"
                     @click="handleSendProblemDesciption"
                   >
@@ -67,6 +85,7 @@
                     />
                     <span
                       v-else
+                      class="font-weight-bold"
                       v-text="'Enviar'"
                     />
                   </v-btn>
@@ -101,21 +120,6 @@
             </v-form>
           </v-col>
         </v-row>
-        </v-col>
-        <v-col
-          :cols="$vuetify.breakpoint.smAndDown ? '12' : '6' "
-        >
-          <video
-            autoplay
-            loop
-            width="100%"
-          >
-            <source
-              src="/videos/Problem.mp4"
-              type="video/mp4"
-            >
-            <a href="https://storyset.com/people">People illustrations by Storyset</a>
-          </video>
         </v-col>
       </v-row>
     </v-col>

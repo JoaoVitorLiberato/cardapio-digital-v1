@@ -99,7 +99,8 @@
         style="background-color: #EB310CBF; opacity: .9;"
       >
         <a
-        :href="`https://wa.me/${redirectWattsapp}`"
+          :href="`https://wa.me/${redirectWattsapp}`"
+          target="_blank"
         >
           <span
             style="font-size:15px;color:#fff"
