@@ -240,8 +240,22 @@
               :modoPreparo="informationsProduct.modoPreparo"
               :redirectWattsapp="informationsProduct.telCliente"
               @closeDialogSeeMoreProduct="() => dialogSeeMoreProduct = false"
+              @seeMoreCompany="handleSeeMoreCompany(informationsProduct.user_id)"
             />
-            <dialogSeeMoreProduct />
+            <dialogSeeMoreCompany
+              v-if="informationsCompany !== null"
+              :dialogSeeMoreCompany="dialogSeeMoreCompany"
+              :nome="informationsCompany.nome"
+              :cnpj="informationsCompany.cnpj"
+              :cep="informationsCompany.cep"
+              :endereco="informationsCompany.endereco"
+              :numero="informationsCompany.numero"
+              :complemento="informationsCompany.complemento"
+              :bairro="informationsCompany.bairro"
+              :cidade="informationsCompany.cidade"
+              :uf="informationsCompany.uf"
+              @closeDialogSeeMoreCompany="() => dialogSeeMoreCompany = false"
+            />
           </v-col>
         </v-row>
       </v-col>
@@ -296,6 +310,13 @@
           "@/components/dialog-see-more-product/dialogSeeMoreProduct.vue"
         )
       }),
+      dialogSeeMoreCompany: () => ({
+        component: import(
+          /* webpackChunkName: "seeMoreCompany-dialog-component" */
+          /* webpackMode: "eager" */
+          "@/components/dialog-see-more-company/dialogSeeMoreCompany.vue"
+        )
+      }),
     }
   })
 
@@ -307,8 +328,9 @@
     dialogProduct = false
     products = []
     informationsProduct = null
+    informationsCompany = null
     dialogSeeMoreProduct = false
-
+    dialogSeeMoreCompany = false
 
     
     created() {
@@ -329,7 +351,13 @@
           this.$store.dispatch("setDataClient", clientFiltered)
         }
         
-        if(!this.$store.getters.getClient && !this.$store.getters.getCompany ) {
+        if(
+          [ 
+            /me/i.test(this.$router.currentRoute.name),
+            !this.$store.getters.getClient,
+            !this.$store.getters.getCompany,
+          ].every(o => !!o)
+          ) {
           console.log("necessita cadastrar seus dados.");
           this.dialogRegisterAllDataUser = true
           return; 
@@ -363,10 +391,17 @@
 
     async handleSeeMoreProduct(id) {
       const productFilteredById = this.products.filter(item => item.id === id)
-      this.dialogSeeMoreProduct = true
       this.informationsProduct = productFilteredById[0]
+      this.dialogSeeMoreProduct = true
       return productFilteredById
     }
 
+    async handleSeeMoreCompany(userID) {
+      const company = await list("company")
+      const companyFilteredByUserId = company.filter(item => item.user_id === userID)
+      this.informationsCompany = companyFilteredByUserId[0]
+      this.dialogSeeMoreCompany = true
+      return companyFilteredByUserId
+    }
   }
 </script>

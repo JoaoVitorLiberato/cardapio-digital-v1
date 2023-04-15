@@ -9,7 +9,7 @@
     />
 
     <v-card-title
-      class="text-uppercase"
+      class="text-uppercase font-weight-bold"
     >
       {{ titleProduct }}
     </v-card-title>

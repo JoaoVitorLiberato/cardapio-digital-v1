@@ -2,6 +2,9 @@
   <v-dialog
     v-model="dialogSeeMoreProduct"
     transition="dialog-bottom-transition"
+    fullscreen
+    hide-overlay
+    persistent
   >
     <v-card
       class="fix-card-seeMore-product mx-auto"
@@ -41,6 +44,7 @@
               <v-btn
                 color="#EB310CBF"
                 dark
+                @click="$emit('seeMoreCompany')"
               >
                 <span
                   class="font-weight-bold"
@@ -96,7 +100,7 @@
       </v-list-item>
 
       <v-card-actions
-        style="background-color: #EB310CBF; opacity: .9;"
+        style="background-color: #EB310CBF;opacity: 1;"
       >
         <a
           :href="`https://wa.me/${redirectWattsapp}`"
@@ -111,7 +115,7 @@
         <v-spacer />
         <v-btn
           text
-          color="#b2b2b2"
+          color="red lighten-4"
           @click="$emit('closeDialogSeeMoreProduct')"
         >
           <span
@@ -133,6 +137,7 @@
 
   export default class dialogSeeMoreProduct extends mixins() {
     @Emit('closeDialogSeeMoreProduct')
+    @Emit('seeMoreCompany')
     @Prop({ default: false }) dialogSeeMoreProduct
     @Prop({ default: "" }) titleReceita
     @Prop({ default: "" }) company
