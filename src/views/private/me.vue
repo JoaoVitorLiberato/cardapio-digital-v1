@@ -323,8 +323,8 @@
   export default class HomeView extends mixins() {
     loading = false
     dialogRegisterAllDataUser = false
-    dataClient = this.$store.getters.getClient
-    dataCompany = this.$store.getters.getCompany
+    dataClient = null
+    dataCompany = null
     dialogProduct = false
     products = []
     informationsProduct = null
@@ -365,7 +365,14 @@
   
         console.log(`Já existe dados do email: ${this.$store.getters.getUser.email} cadastrado em nosso banco de dados.`)
         this.dialogRegisterAllDataUser = false
-        return; 
+
+        this.dataClient = clientFiltered
+        this.dataCompany = companyFiltered
+
+        return {
+          clientFiltered,
+          companyFiltered
+        }
       } 
 
       if( "user" in this.$store.state) {
