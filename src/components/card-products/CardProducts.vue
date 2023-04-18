@@ -39,30 +39,73 @@
           mdi-plus
         </v-icon>
       </v-btn>
-
-      <a
-        class="redirect-wattsapp mr-2 "
-        :href="`https://wa.me/${redirectWattsapp}`"
-        target="_blank"
-      >
-        <span
-          style="font-size:14px;color:#EB310CBF"
-          class="text-uppercase font-weight-bold"
-          v-text="'Eu quero'"
-        />
-      </a>
+      <div>
+        <div
+          v-if="router === 'me'"
+        >
+          <v-btn
+            text
+            x-small
+            plain
+            @click="$emit('editProduct')"
+          >
+            <v-icon
+              color="#EB310CBF"
+              size="22"
+            >
+              {{ icon.edit }}
+            </v-icon>
+          </v-btn>
+          <v-btn
+            text
+            x-small
+            plain
+            @click="$emit('deleteProduct')"
+          >
+            <v-icon
+              color="#EB310CBF"
+              size="22"
+            >
+              {{ icon.delete }}
+            </v-icon>
+          </v-btn>
+        </div>
+        <a
+          v-else
+          class="redirect-wattsapp mr-2 "
+          :href="`https://wa.me/${redirectWattsapp}`"
+          target="_blank"
+        >
+          <span
+            style="font-size:14px;color:#EB310CBF"
+            class="text-uppercase font-weight-bold"
+            v-text="'Eu quero'"
+          />
+        </a>
+      </div>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import { mdiLeadPencil, mdiDelete } from "@mdi/js";
   import { Component, Prop, Emit } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
+  import router from "@/router"
 
   @Component({})
 
   export default class CardProduct extends mixins() {
+    icon = {
+      edit: mdiLeadPencil,
+      delete: mdiDelete
+    }
+
+    router = router.currentRoute.name
+
     @Emit('dialogDataProduct')
+    @Emit('editProduct')
+    @Emit('deleteProduct')
     @Prop({ default: '' }) titleProduct
     @Prop({ default: '' }) company
     @Prop({ default: '' }) redirectWattsapp

@@ -4,6 +4,7 @@
         v-model="openDialogProduct"
         transition="dialog-bottom-transition"
         max-width="600"
+        persistent
       >
         <v-card>
           <v-toolbar

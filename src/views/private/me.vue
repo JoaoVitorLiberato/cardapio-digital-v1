@@ -194,6 +194,8 @@
                       :company="nomeEmpresa"
                       :redirectWattsapp="telCliente"
                       @dialogDataProduct="() => handleSeeMoreProduct(id)"
+                      @editProduct="handleOpenEdit(id)"
+                      @deleteProduct="handleDeleteProduct(id)"
                     />
                   </v-slide-item>
                 </v-slide-group>
@@ -212,6 +214,8 @@
                       :company="nomeEmpresa"
                       :redirectWattsapp="telCliente"
                       @dialogDataProduct="() => handleSeeMoreProduct(id)"
+                      @editProduct="handleOpenEdit(id)"
+                      @deleteProduct="handleDeleteProduct(id)"
                     />
                   </v-carousel-item>
                 </v-carousel>
@@ -231,6 +235,99 @@
           <v-col
             cols="12"
           >
+            <v-dialog
+              v-model="openDialogProductEdit"
+              transition="dialog-bottom-transition"
+              max-width="600"
+              persistent
+            >
+              <v-card>
+                <v-toolbar
+                  color="#EB310CBF"
+                  dark
+                >
+                  <h2>
+                    Cadastrar Produtos
+                  </h2>
+                </v-toolbar>
+                <v-card-text>
+                  <v-form>
+                    <v-row>
+                      <v-col
+                        cols="12 pa-0"
+                        class="mt-10"
+                      >
+                        <v-text-field
+                          :value="productDataID.nomeProduto"
+                          v-model="formProduct.nomeProduto"
+                          label="Nome do Produto"
+                          :rules="[rules.required]"
+                          outlined
+                          required
+                        />
+                      </v-col>
+
+                      <v-col
+                        cols="12 pa-0"
+                      > 
+                        <v-textarea
+                          :value="productDataID.receita"
+                          v-model="formProduct.receita"
+                          label="Descrição do Produto"
+                          :rules="[rules.required]"
+                          auto-grow
+                          outlined
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12 pa-0"
+                      > 
+                        <v-textarea
+                          :value="productDataID.modoPreparo"
+                          v-model="formProduct.modoPreparo"
+                          label="Modo de Preparo"
+                          :rules="[rules.required]"
+                          auto-grow
+                          outlined
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12 pa-0"
+                      > 
+                        <v-btn
+                          width="100%"
+                          x-large
+                          dark
+                          depressed
+                          color="#EB310CBF"
+                          type="submit"
+                        >
+                          <v-progress-circular
+                            v-if="loading"
+                            indeterminate
+                            color="white"
+                          />
+                          <span
+                            v-else 
+                            v-text="'Editar Produto'"
+                          />
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+
+                  </v-form>
+                </v-card-text>
+                <v-card-actions class="justify-end">
+                  <v-btn
+                    text
+                    color="#EB310CBF"
+                    @click="() => openDialogProductEdit = false"
+                  >
+                    Fechar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
             <dialogSeeMoreProduct 
               v-if="informationsProduct !== null"
               :dialogSeeMoreProduct="dialogSeeMoreProduct"
@@ -277,7 +374,7 @@
   import "@/assets/styles/views/privateViews/me.styl"
   import useBD from "@/middlewares/useBD"
 
-  const { list } = useBD()
+  const { list, remove } = useBD()
 
 
   @Component({
@@ -331,8 +428,25 @@
     informationsCompany = null
     dialogSeeMoreProduct = false
     dialogSeeMoreCompany = false
+    openDialogProductEdit= false
+    productDataID = {
+      nomeProduto: "",
+      receita: "",
+      modoPreparo: "",
+    }
 
-    
+    formProduct = {
+      nomeProduto: "",
+      receita: "",
+      modoPreparo: "",
+      nomeEmpresa: "",
+      telCliente: ""
+    }
+
+    rules = {
+      required: value => !!value || 'Obrigatório.',
+    }
+
     created() {
       const validateDataUser = async () => {
         const client = await list("client")
@@ -409,6 +523,26 @@
       this.informationsCompany = companyFilteredByUserId[0]
       this.dialogSeeMoreCompany = true
       return companyFilteredByUserId
+    }
+
+    async handleOpenEdit(id) {
+      const productFiltered = this.products.find(item => item.id === id)
+      this.openDialogProductEdit = true
+      if(productFiltered) {
+        this.productDataID.nomeProduto = productFiltered.nomeProduto
+        this.productDataID.receita = productFiltered.receita
+        this.productDataID.modoPreparo = productFiltered.modoPreparo
+        console.log(this.productDataID);
+        return productFiltered
+      }
+
+      return "Não há produtos com esse ID"
+    }
+
+    async handleDeleteProduct(id) {
+      await remove("product", id)
+      console.log("Produto Removido com sucesso");
+      this.$router.go()
     }
   }
 </script>
