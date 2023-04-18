@@ -247,7 +247,7 @@
                   dark
                 >
                   <h2>
-                    Cadastrar Produtos
+                    Editar Produtos
                   </h2>
                 </v-toolbar>
                 <v-card-text>
@@ -258,7 +258,6 @@
                         class="mt-10"
                       >
                         <v-text-field
-                          :value="productDataID.nomeProduto"
                           v-model="formProduct.nomeProduto"
                           label="Nome do Produto"
                           :rules="[rules.required]"
@@ -271,7 +270,6 @@
                         cols="12 pa-0"
                       > 
                         <v-textarea
-                          :value="productDataID.receita"
                           v-model="formProduct.receita"
                           label="Descrição do Produto"
                           :rules="[rules.required]"
@@ -283,7 +281,6 @@
                         cols="12 pa-0"
                       > 
                         <v-textarea
-                          :value="productDataID.modoPreparo"
                           v-model="formProduct.modoPreparo"
                           label="Modo de Preparo"
                           :rules="[rules.required]"
@@ -527,12 +524,12 @@
 
     async handleOpenEdit(id) {
       const productFiltered = this.products.find(item => item.id === id)
-      this.openDialogProductEdit = true
       if(productFiltered) {
-        this.productDataID.nomeProduto = productFiltered.nomeProduto
-        this.productDataID.receita = productFiltered.receita
-        this.productDataID.modoPreparo = productFiltered.modoPreparo
+        this.formProduct.nomeProduto = productFiltered.nomeProduto
+        this.formProduct.receita = productFiltered.receita
+        this.formProduct.modoPreparo = productFiltered.modoPreparo
         console.log(this.productDataID);
+        this.openDialogProductEdit = true
         return productFiltered
       }
 
