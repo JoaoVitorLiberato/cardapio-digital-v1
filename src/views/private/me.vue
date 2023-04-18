@@ -251,7 +251,9 @@
                   </h2>
                 </v-toolbar>
                 <v-card-text>
-                  <v-form>
+                  <v-form
+                    @submit.prevent="handleEditProduct(productDataID)"
+                  >
                     <v-row>
                       <v-col
                         cols="12 pa-0"
@@ -366,12 +368,12 @@
 </template>
 
 <script>
-  import { Component } from "vue-property-decorator"
+  import { Component, Vue } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import "@/assets/styles/views/privateViews/me.styl"
   import useBD from "@/middlewares/useBD"
 
-  const { list, remove } = useBD()
+  const { list, remove, update } = useBD()
 
 
   @Component({
@@ -426,11 +428,7 @@
     dialogSeeMoreProduct = false
     dialogSeeMoreCompany = false
     openDialogProductEdit= false
-    productDataID = {
-      nomeProduto: "",
-      receita: "",
-      modoPreparo: "",
-    }
+    productDataID = 0
 
     formProduct = {
       nomeProduto: "",
@@ -492,19 +490,19 @@
     }
 
     mounted () {
-      const Products = async () => {
-        const listProducts = await list("product")
+      this.dataProductFiltered()
+    }
+
+    async dataProductFiltered() {
+      const listProducts = await list("product")
         
-        const productFilteredByIdLoggedInUser = listProducts.filter(
-          item => item.user_id === this.$store.getters.getUser.id
-        )
+      const productFilteredByIdLoggedInUser = listProducts.filter(
+        item => item.user_id === this.$store.getters.getUser.id
+      )
 
-        this.products = [
-          ...productFilteredByIdLoggedInUser
-        ]
-      }
-
-      Products()
+      this.products = [
+        ...productFilteredByIdLoggedInUser
+      ]
     }
 
     async handleSeeMoreProduct(id) {
@@ -524,11 +522,11 @@
 
     async handleOpenEdit(id) {
       const productFiltered = this.products.find(item => item.id === id)
+      this.productDataID = productFiltered.id
       if(productFiltered) {
         this.formProduct.nomeProduto = productFiltered.nomeProduto
         this.formProduct.receita = productFiltered.receita
         this.formProduct.modoPreparo = productFiltered.modoPreparo
-        console.log(this.productDataID);
         this.openDialogProductEdit = true
         return productFiltered
       }
@@ -536,10 +534,31 @@
       return "Não há produtos com esse ID"
     }
 
+    async handleEditProduct(id) {
+      this.products.find(async item => {
+        this.productDataID = item.id
+        if(item.id == id) {
+          const PAYLOAD = require("@/data/product/product.json")
+
+          if(this.formProduct) {
+            Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
+            Vue.set(PAYLOAD, "receita", this.formProduct.receita)
+            Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
+            Vue.set(PAYLOAD, "nomeEmpresa", this.$store.getters.getCompany.nome)
+            Vue.set(PAYLOAD, "telCliente", this.$store.getters.getClient.wattsapp)
+          }
+          await update("product", PAYLOAD)
+          console.log("Produto Removido com sucesso")
+          console.log(PAYLOAD)
+        }
+      })
+      // this.dataProductFiltered()
+    }
+
     async handleDeleteProduct(id) {
       await remove("product", id)
       console.log("Produto Removido com sucesso");
-      this.$router.go()
+      this.dataProductFiltered()
     }
   }
 </script>
