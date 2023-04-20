@@ -189,6 +189,42 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+      v-model="error"
+      width="500"
+    >
+      <v-card>
+        <v-card-title 
+          class="red lighten-2"
+        >
+          <h2
+            class="white--text text-uppercase font-weight-bold"
+            style="font-size: 24px;"
+          >
+            Acesso negado!
+          </h2>
+          <v-spacer />
+          <v-btn
+            text
+            dark
+            plain
+            @click="() => error = false"
+          >
+            <span
+              style="font-size: 20px;"
+              class="text-uppercase font-weight-bold"
+              v-text="'x'"
+            />
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text
+          class="pt-4"        
+        >
+          Email ou senha incorreta, Por favor tente novamente inserindo os dados corretos!
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     </v-row>
   </v-container>
 </template>
@@ -215,6 +251,7 @@
     show = false
     loading = false
     dialog = false
+    error = false
     msg = ''
 
     rules = {
@@ -236,16 +273,22 @@
       this.loading = true
       const PAYLOAD_DATA = require("@/data/fieldsGlobal/fieldsGlobal.json")
 
-      if (this.form) {
-        Vue.set(PAYLOAD_DATA, "email", this.form.email)
-        Vue.set(PAYLOAD_DATA, "password", this.form.password)
-        this.$store.dispatch("setSavedDataUserLogin", PAYLOAD_DATA)
-      }
+      try {
+        if (this.form) {
+          Vue.set(PAYLOAD_DATA, "email", this.form.email)
+          Vue.set(PAYLOAD_DATA, "password", this.form.password)
+          this.$store.dispatch("setSavedDataUserLogin", PAYLOAD_DATA)
+        }
+  
+        await login(PAYLOAD_DATA)
+        setTimeout(() => {
+          this.loading = false
+        }, 1400)
 
-      await login(PAYLOAD_DATA)
-      setTimeout(() => {
+      } catch {
         this.loading = false
-      }, 1400)
+        this.error = true
+      }
     }
   }
 </script>
