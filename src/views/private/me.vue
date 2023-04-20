@@ -430,7 +430,7 @@
     openDialogProductEdit= false
 
     formProduct = {
-      id: 0,
+      img_url: "",
       nomeProduto: "",
       receita: "",
       modoPreparo: "",
@@ -525,7 +525,7 @@
       const productFiltered = this.products.find(item => item.id === id)
 
       if(productFiltered) {
-        localStorage.setItem("product_id", productFiltered.id)
+        this.formProduct.img_url = productFiltered.img_url
         this.formProduct.nomeProduto = productFiltered.nomeProduto
         this.formProduct.receita = productFiltered.receita
         this.formProduct.modoPreparo = productFiltered.modoPreparo
@@ -547,7 +547,7 @@
       const PAYLOAD = require("@/data/product/product.json")
 
       if(this.formProduct) {
-        Vue.set(PAYLOAD, "id", localStorage.getItem("product_id"))
+        Vue.set(PAYLOAD, "img_url", this.formProduct.img_url)
         Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
         Vue.set(PAYLOAD, "receita", this.formProduct.receita)
         Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
