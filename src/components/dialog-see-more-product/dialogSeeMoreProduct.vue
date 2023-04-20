@@ -57,7 +57,7 @@
 
         <img
           class="pt-4"
-          src="https://th.bing.com/th/id/R.a4fb5ae2ee2f7d628446fcb7a4c5588e?rik=LwIw84avT5f5Bw&pid=ImgRaw&r=0"
+          :src="image"
           :width="$vuetify.breakpoint.xsOnly ? '100%' : ''"
           :height="$vuetify.breakpoint.xsOnly ? '' : '250px'"
 
@@ -140,6 +140,7 @@
     @Emit('seeMoreCompany')
     @Prop({ default: false }) dialogSeeMoreProduct
     @Prop({ default: "" }) titleReceita
+    @Prop({ default: "" }) image
     @Prop({ default: "" }) company
     @Prop({ default: "" }) receita
     @Prop({ default: "" }) modoPreparo

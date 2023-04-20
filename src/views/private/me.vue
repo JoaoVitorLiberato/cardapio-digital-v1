@@ -342,6 +342,7 @@
             <dialogSeeMoreProduct 
               v-if="informationsProduct !== null"
               :dialogSeeMoreProduct="dialogSeeMoreProduct"
+              :image="informationsProduct.img_url"
               :titleReceita="informationsProduct.nomeProduto"
               :company="informationsProduct.nomeEmpresa"
               :receita="informationsProduct.receita"
