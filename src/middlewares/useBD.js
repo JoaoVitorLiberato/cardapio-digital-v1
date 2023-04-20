@@ -50,13 +50,13 @@ export default function useBD() {
     return data
   }
   
-  const update = async (table, form) => {
+  const update = async (table, form, id) => {
     const { data, error } = await supabase
       .from(table)
       .update({
         ...form,
       })
-      .match({ id: form.id })
+      .match({ id })
 
     if (error) throw error
 

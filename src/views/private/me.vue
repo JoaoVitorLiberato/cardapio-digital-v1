@@ -252,7 +252,7 @@
                 </v-toolbar>
                 <v-card-text>
                   <v-form
-                    @submit.prevent="handleEditProduct(productDataID)"
+                    @submit.prevent="handleEditProduct"
                   >
                     <v-row>
                       <v-col
@@ -320,7 +320,7 @@
                   <v-btn
                     text
                     color="#EB310CBF"
-                    @click="() => openDialogProductEdit = false"
+                    @click="handleCloseDialogEdit"
                   >
                     Fechar
                   </v-btn>
@@ -428,9 +428,9 @@
     dialogSeeMoreProduct = false
     dialogSeeMoreCompany = false
     openDialogProductEdit= false
-    productDataID = 0
 
     formProduct = {
+      id: 0,
       nomeProduto: "",
       receita: "",
       modoPreparo: "",
@@ -521,44 +521,53 @@
     }
 
     async handleOpenEdit(id) {
+      
       const productFiltered = this.products.find(item => item.id === id)
-      this.productDataID = productFiltered.id
+
       if(productFiltered) {
+        localStorage.setItem("product_id", productFiltered.id)
         this.formProduct.nomeProduto = productFiltered.nomeProduto
         this.formProduct.receita = productFiltered.receita
         this.formProduct.modoPreparo = productFiltered.modoPreparo
         this.openDialogProductEdit = true
+
         return productFiltered
       }
 
       return "Não há produtos com esse ID"
     }
 
-    async handleEditProduct(id) {
-      this.products.find(async item => {
-        this.productDataID = item.id
-        if(item.id == id) {
-          const PAYLOAD = require("@/data/product/product.json")
+    handleCloseDialogEdit () {
+      localStorage.removeItem("product_id")
+      this.openDialogProductEdit = false
+      return;
+    }
 
-          if(this.formProduct) {
-            Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
-            Vue.set(PAYLOAD, "receita", this.formProduct.receita)
-            Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
-            Vue.set(PAYLOAD, "nomeEmpresa", this.$store.getters.getCompany.nome)
-            Vue.set(PAYLOAD, "telCliente", this.$store.getters.getClient.wattsapp)
-          }
-          await update("product", PAYLOAD)
-          console.log("Produto Removido com sucesso")
-          console.log(PAYLOAD)
-        }
-      })
-      // this.dataProductFiltered()
+    async handleEditProduct() {
+      const PAYLOAD = require("@/data/product/product.json")
+
+      if(this.formProduct) {
+        Vue.set(PAYLOAD, "id", localStorage.getItem("product_id"))
+        Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
+        Vue.set(PAYLOAD, "receita", this.formProduct.receita)
+        Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
+        Vue.set(PAYLOAD, "nomeEmpresa", this.$store.getters.getCompany.nome)
+        Vue.set(PAYLOAD, "telCliente", this.$store.getters.getClient.wattsapp)
+      }
+
+      console.log(PAYLOAD)
+
+      await update("product", PAYLOAD, localStorage.getItem("product_id"))
+      console.log("Produto editado com sucesso")
+      this.openDialogProductEdit = false
+
+      return this.dataProductFiltered()
     }
 
     async handleDeleteProduct(id) {
       await remove("product", id)
       console.log("Produto Removido com sucesso");
-      this.dataProductFiltered()
+      return this.dataProductFiltered()
     }
   }
 </script>
