@@ -4,7 +4,7 @@
     max-width="320"
   >
     <v-img
-      src="https://th.bing.com/th/id/R.a4fb5ae2ee2f7d628446fcb7a4c5588e?rik=LwIw84avT5f5Bw&pid=ImgRaw&r=0"
+      :src="img_url"
       height="200px"
     />
 
@@ -106,6 +106,7 @@ import { mdiLeadPencil, mdiDelete } from "@mdi/js";
     @Emit('dialogDataProduct')
     @Emit('editProduct')
     @Emit('deleteProduct')
+    @Prop({ default: '' }) img_url
     @Prop({ default: '' }) titleProduct
     @Prop({ default: '' }) company
     @Prop({ default: '' }) redirectWattsapp

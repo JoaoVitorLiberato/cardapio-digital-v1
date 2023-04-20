@@ -31,6 +31,17 @@
                 </v-col>
                 <v-col
                   cols="12 pa-0"
+                  class="mb-5"
+                >
+                  <v-file-input
+                    v-model="file"
+                    counter
+                    multiple
+                    label="File input"
+                  />
+                </v-col>
+                <v-col
+                  cols="12 pa-0"
                 >
                   <v-text-field
                     v-model="formProduct.nomeProduto"
@@ -40,7 +51,6 @@
                     required
                   />
                 </v-col>
-
                 <v-col
                   cols="12 pa-0"
                 > 
@@ -109,6 +119,7 @@
   import { mixins } from "vue-class-component"
   import { Component, Emit, Prop, Vue } from "vue-property-decorator"
   import useBD from "@/middlewares/useBD"
+  import { uploadImage } from "@/middlewares/useStorage"
 
   const { postTableWithCompanyID } = useBD()
 
@@ -120,12 +131,15 @@
 
 
     formProduct = {
+      img_url: "",
       nomeProduto: "",
       receita: "",
       modoPreparo: "",
       nomeEmpresa: "",
       telCliente: ""
     }
+
+    file = []
     
     loading = false
 
@@ -133,12 +147,21 @@
       required: value => !!value || 'Obrigatório.',
     }
 
+
+
     async handleAddProduct() {
       this.loading = true
 
       const PAYLOAD = require("@/data/product/product.json")
 
+      if( this.file.length > 0 ) {
+        const { publicUrl } = await uploadImage("product", this.file[0])
+        this.formProduct.img_url = publicUrl
+        console.log(this.formProduct.img_url)
+      }
+
       if(this.formProduct) {
+        Vue.set(PAYLOAD, "img_url", this.formProduct.img_url)
         Vue.set(PAYLOAD, "nomeProduto", this.formProduct.nomeProduto)
         Vue.set(PAYLOAD, "receita", this.formProduct.receita)
         Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
@@ -158,6 +181,7 @@
         }, 1400)
 
       } catch (error) {
+        this.loading = false
         console.log(error.message)
       }
     }
