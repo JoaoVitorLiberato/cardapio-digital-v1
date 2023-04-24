@@ -186,10 +186,11 @@
                   show-arrows
                 >
                   <v-slide-item
-                    v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
+                    v-for="{ id, nomeEmpresa, nomeProduto, telCliente, img_url } in products"
                     :key="`slide-group-${id}`"
                   >
-                    <CardProduct 
+                    <CardProduct
+                      :img_url="img_url"
                       :titleProduct="nomeProduto"
                       :company="nomeEmpresa"
                       :redirectWattsapp="telCliente"
@@ -206,10 +207,11 @@
                   style="transform: translateY(60px)"
                 >
                   <v-carousel-item
-                    v-for="{ id, nomeEmpresa, nomeProduto, telCliente } in products"
+                    v-for="{ id, nomeEmpresa, nomeProduto, telCliente, img_url } in products"
                     :key="`slide-group-${id}`"
                   >
-                    <CardProduct 
+                    <CardProduct
+                      :img_url="img_url"
                       :titleProduct="nomeProduto"
                       :company="nomeEmpresa"
                       :redirectWattsapp="telCliente"
@@ -257,7 +259,17 @@
                     <v-row>
                       <v-col
                         cols="12 pa-0"
-                        class="mt-10"
+                        class="mb-5 mt-10"
+                      >
+                        <!-- <v-file-input
+                          v-model="file"
+                          counter
+                          multiple
+                          label="File input"
+                        /> -->
+                      </v-col>
+                      <v-col
+                        cols="12 pa-0"
                       >
                         <v-text-field
                           v-model="formProduct.nomeProduto"
@@ -330,6 +342,7 @@
             <dialogSeeMoreProduct 
               v-if="informationsProduct !== null"
               :dialogSeeMoreProduct="dialogSeeMoreProduct"
+              :image="informationsProduct.img_url"
               :titleReceita="informationsProduct.nomeProduto"
               :company="informationsProduct.nomeEmpresa"
               :receita="informationsProduct.receita"
@@ -372,9 +385,9 @@
   import { mixins } from "vue-class-component"
   import "@/assets/styles/views/privateViews/me.styl"
   import useBD from "@/middlewares/useBD"
+  import { updateUploadImage, listImages } from "@/middlewares/useStorage"
 
   const { list, remove, update } = useBD()
-
 
   @Component({
     components: {
@@ -438,6 +451,8 @@
       telCliente: ""
     }
 
+    file = []
+
     rules = {
       required: value => !!value || 'Obrigatório.',
     }
@@ -491,6 +506,23 @@
 
     mounted () {
       this.dataProductFiltered()
+
+        const filterImages = async () => {
+          const data = await listImages("product")
+
+          data.filter(item => {
+            if(this.$store.getters.getCompany) {
+              if(item.name.toLocaleLowerCase().includes(this.$store.getters.getCompany.cnpj.replace(/\D/g,"").toLocaleLowerCase())) {
+                this.file = item
+                return item
+              }
+            }
+          })
+
+          return;
+        }
+        
+        filterImages()
     }
 
     async dataProductFiltered() {
@@ -524,7 +556,10 @@
       
       const productFiltered = this.products.find(item => item.id === id)
 
+      console.log(productFiltered);
+
       if(productFiltered) {
+        localStorage.setItem("product_id", productFiltered.id)
         this.formProduct.img_url = productFiltered.img_url
         this.formProduct.nomeProduto = productFiltered.nomeProduto
         this.formProduct.receita = productFiltered.receita
@@ -545,6 +580,11 @@
 
     async handleEditProduct() {
       const PAYLOAD = require("@/data/product/product.json")
+
+      if( this.file.length > 0 && this.file[0].name !== this.formProduct.img_url ) {
+        updateUploadImage("product", this.formProduct.img_url, this.file[0])
+        console.log("imagem atualizada");
+      }
 
       if(this.formProduct) {
         Vue.set(PAYLOAD, "img_url", this.formProduct.img_url)
@@ -569,5 +609,6 @@
       console.log("Produto Removido com sucesso");
       return this.dataProductFiltered()
     }
+
   }
 </script>

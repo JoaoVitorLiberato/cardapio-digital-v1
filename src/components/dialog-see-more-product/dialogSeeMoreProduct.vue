@@ -57,13 +57,15 @@
 
         <img
           class="pt-4"
-          src="https://th.bing.com/th/id/R.a4fb5ae2ee2f7d628446fcb7a4c5588e?rik=LwIw84avT5f5Bw&pid=ImgRaw&r=0"
+          :src="image"
           :width="$vuetify.breakpoint.xsOnly ? '100%' : ''"
           :height="$vuetify.breakpoint.xsOnly ? '' : '250px'"
 
         >
       </v-list-item>
-      <v-list-item>
+      <v-list-item
+        class="mt-10"
+      >
         <v-row>
           <v-col
             cols="12"
@@ -98,9 +100,8 @@
           </v-col>
         </v-row>
       </v-list-item>
-
       <v-card-actions
-        style="background-color: #EB310CBF;opacity: 1;"
+        :style="$vuetify.breakpoint.xsOnly ? 'background-color: #EB310CBF;opacity:1' : 'background-color: #EB310CBF;opacity: 1;position: absolute;bottom:0;width:100%;'"
       >
         <a
           :href="`https://wa.me/${redirectWattsapp}`"
@@ -140,6 +141,7 @@
     @Emit('seeMoreCompany')
     @Prop({ default: false }) dialogSeeMoreProduct
     @Prop({ default: "" }) titleReceita
+    @Prop({ default: "" }) image
     @Prop({ default: "" }) company
     @Prop({ default: "" }) receita
     @Prop({ default: "" }) modoPreparo
