@@ -514,7 +514,6 @@
             if(this.$store.getters.getCompany) {
               if(item.name.toLocaleLowerCase().includes(this.$store.getters.getCompany.cnpj.replace(/\D/g,"").toLocaleLowerCase())) {
                 this.file = item
-                console.log(this.file)
                 return item
               }
             }
@@ -584,7 +583,6 @@
 
       if( this.file.length > 0 && this.file[0].name !== this.formProduct.img_url ) {
         updateUploadImage("product", this.formProduct.img_url, this.file[0])
-        console.log("product", this.formProduct.img_url, this.file[0])
         console.log("imagem atualizada");
       }
 

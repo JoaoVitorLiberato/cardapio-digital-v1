@@ -63,7 +63,9 @@
 
         >
       </v-list-item>
-      <v-list-item>
+      <v-list-item
+        class="mt-10"
+      >
         <v-row>
           <v-col
             cols="12"
@@ -98,9 +100,8 @@
           </v-col>
         </v-row>
       </v-list-item>
-
       <v-card-actions
-        style="background-color: #EB310CBF;opacity: 1;"
+        :style="$vuetify.breakpoint.xsOnly ? 'background-color: #EB310CBF;opacity:1' : 'background-color: #EB310CBF;opacity: 1;position: absolute;bottom:0;width:100%;'"
       >
         <a
           :href="`https://wa.me/${redirectWattsapp}`"
