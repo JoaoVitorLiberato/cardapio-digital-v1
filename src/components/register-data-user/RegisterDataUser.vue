@@ -454,6 +454,12 @@
                           Voltar
                         </v-btn>
                         <v-btn
+                          :disabled="
+                            formCompany.nome === '' ||
+                            formCompany.complemento === '' ||
+                            formCompany.cidade === '' ||
+                            formCompany.autorizacaoPublic === false
+                          "
                           large
                           color="primary"
                           @click="handleDataCompany"
