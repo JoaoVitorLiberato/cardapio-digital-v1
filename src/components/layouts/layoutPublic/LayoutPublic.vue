@@ -61,7 +61,7 @@
   export default class LayoutPublic extends mixins() {
     links = [
       {
-        name: 'Podutos',
+        name: 'Produtos',
         to: '/products'
       },
       {
