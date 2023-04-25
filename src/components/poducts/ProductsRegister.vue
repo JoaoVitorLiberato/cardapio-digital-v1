@@ -167,6 +167,7 @@
         Vue.set(PAYLOAD, "modoPreparo", this.formProduct.modoPreparo)
         Vue.set(PAYLOAD, "nomeEmpresa", this.$store.getters.getCompany.nome)
         Vue.set(PAYLOAD, "telCliente", this.$store.getters.getClient.wattsapp)
+        Vue.set(PAYLOAD, "company_id", this.$store.getters.getCompany.id)
       }
       
       try {

@@ -176,7 +176,7 @@
           >
             <v-row>
               <v-col
-              v-if="products.length > 0"
+                v-if="products.length > 0"
                 cols="12"
               >
                 <v-slide-group
